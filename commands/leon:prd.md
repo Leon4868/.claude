@@ -9,6 +9,21 @@
 - **新建模式**：`/leon:prd {项目文件夹路径}`
 - **变更模式**：`/leon:prd --change {N}.{feature-name} 变更内容描述`
 
+## 代码上下文
+
+生成 specs 时，如需求涉及现有代码，默认按以下真实项目结构做架构判断与任务切分：
+
+- 前端代码根目录：`FRONTEND_ROOT`
+  - `ai-admin-ui`：Vue 2.7、Vue CLI/Webpack、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
+  - `ai-decision-system-ui`：Vue 2.7、Vue CLI/Webpack、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
+  - `ai-seat-console`：Vue 2.7、Vite 4、TypeScript、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
+- 后端 Maven 根目录：`{BACKEND_ROOT}/ai`
+  - Maven 多模块 Java 8 工程
+  - 主要模块：`ai-admin`、`ai-open-api`、`ai-server`、`ai-dataaccess`、`ai-domain`、`ai-common`、`ai-cache`、`ai-task`、`ai-sms`、`ai-sms-core`、`ai-decision-system`、`nacos`、`rocketmq`、`kafka`
+  - 主要技术：Spring Boot 2.3.x、Spring Cloud 2.2.x、JFinal、iBatis/SQLMap、Nacos、RocketMQ、Kafka、Redis、MySQL、ClickHouse、MongoDB、Groovy、JUnit 4
+
+requirements/design/tasks 中凡涉及代码实现，必须写清楚目标前端项目或后端 Maven 模块；无法确定时在开放问题中要求确认，或在设计中说明需要先用代码搜索定位。禁止写死某台机器的绝对路径。
+
 用户提供一个项目文件夹路径，文件夹结构约定：
 
 ```text
@@ -50,11 +65,14 @@
 
 扫描项目根目录、配置文件、目录结构、依赖声明，自行判断架构类型（monorepo / 多仓库 / 单体应用 / Web3 等）。记录 `ARCH_TYPE`。
 
+当前项目 `ARCH_TYPE` 可识别为：前端多项目 + 后端 Maven 多模块的多仓库/多工程架构。生成设计时不得把所有代码描述成单个前后端目录。
+
 ### Step 4: 读取项目上下文
 
 - 读取各仓库的 `.claude/CLAUDE.md` 了解技术栈
 - 读取 `.claude/rules/` 下所有规则文件
 - 扫描目录结构，了解现有模块划分
+- 若仓库暂无 `.claude/`，读取前端 `package.json`、构建配置、router/store/services，或后端根/子模块 `pom.xml`、profiles、controller/service/dao/sqlmap 结构
 
 ### Step 5: 分析需求
 
@@ -167,6 +185,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 
 - 项目名: {PROJECT_NAME}
 - 架构类型: {ARCH_TYPE}
+- 目标代码位置: {前端项目路径/后端模块路径/多个路径}
 
 ## 需求版本
 
@@ -221,6 +240,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 
 - 架构类型: {ARCH_TYPE}
 - 涉及层: {根据项目实际情况列出}
+- 涉及代码位置: {如 {FRONTEND_ROOT}/ai-admin-ui + {BACKEND_ROOT}/ai/ai-admin}
 
 ## 功能模块设计
 
@@ -272,6 +292,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 - 项目名: {PROJECT_NAME}
 - 架构类型: {ARCH_TYPE}
 - specs 路径: {SPECS_DIR}/{N}.{feature-name}/
+- 目标代码位置: {具体前端项目/后端 Maven 模块}
 
 ## 任务列表
 
@@ -305,6 +326,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 **任务拆解原则：**
 
 - 按「功能 × 层」切片，每个切片原子、可独立完成和验证
+- 每个 task 标题或说明必须带上目标项目/模块，例如 `ai-admin-ui`、`ai-seat-console`、`ai-admin`、`ai-dataaccess`
 - **单个 task 预估时间不得超过 30min**，超过 30min 必须继续拆成多个子任务
 - 预估完成时间只能选：5min / 15min / 30min
 - **单 feature 任务数 4-8 个**。生成前先数任务总数：若超过 8 个，说明 Step 5.5 切分粒度过粗 —— **回到 Step 5.5 重新切分**（再拆一个 feature 并更新 PLAN.md），**禁止**把超量任务塞进同一目录、也禁止为压到 8 个而虚低估时。

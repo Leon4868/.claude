@@ -10,6 +10,10 @@
 - .claude/CLAUDE.md 和 rules/ 同步
 - specs CHANGELOG 按日期生成
 - 文档一致性验证
+- 文档同步必须按实际代码位置写清楚前端项目与后端 Maven 模块：
+  - 前端根目录 `FRONTEND_ROOT`
+  - 后端根目录 `{BACKEND_ROOT}/ai`
+  - 涉及的具体项目/模块、验证命令、接口契约和数据库/SQLMap 影响
 
 ## 2. 输出总结
 

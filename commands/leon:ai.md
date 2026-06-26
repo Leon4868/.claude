@@ -3,9 +3,33 @@
 `$ARGUMENTS` — specs 文件夹路径 + 代码项目路径。
 
 ```bash
-/leon:ai specs在~/project-specs，代码在~
-/leon:ai ~/project/specs 前端~/code/fe 后端~/code/api
+/leon:ai {SPECS_DIR} 前端{FRONTEND_ROOT} 后端{BACKEND_ROOT}
+/leon:ai ~/project/specs 前端~/project/frontend 后端~/project/backend
+/leon:ai ~/project/specs 前端~/project/code 后端~/project/BackEndCode
 ```
+
+> 仅当代码路径能从当前工作目录、specs 相邻目录或 specs 文档中可靠推断时，才允许省略前端/后端路径；否则必须暂停要求补充路径。
+
+## 项目路径与架构画像
+
+从 `$ARGUMENTS` 解析代码项目路径，并按角色建立路径变量：
+
+- `FRONTEND_ROOT`：前端代码根目录
+- `BACKEND_ROOT`：后端代码根目录
+
+如果未显式传入代码项目路径，只能在当前工作目录、specs 相邻目录或 specs 文档中能明确推断时继续；无法可靠推断时暂停要求用户补充路径，禁止写死某台机器的绝对路径。
+
+已识别项目结构：
+
+- 前端为多项目结构：
+  - `{FRONTEND_ROOT}/ai-admin-ui`：Vue 2.7 + Vue CLI/Webpack + Element UI + Vuex + Vue Router + axios，Yarn 管理，常用命令 `yarn dev`、`yarn lint`、`yarn fix`、`yarn build:*`
+  - `{FRONTEND_ROOT}/ai-decision-system-ui`：Vue 2.7 + Vue CLI/Webpack + Element UI + Vuex + Vue Router + axios + qiankun/wujie，Yarn 管理，常用命令 `yarn dev`、`yarn lint`、`yarn fix`、`yarn build:*`
+  - `{FRONTEND_ROOT}/ai-seat-console`：Vue 2.7 + Vite 4 + TypeScript + Element UI + Vuex + Vue Router + qiankun/wujie，常用命令 `yarn dev`、`yarn lint`、`yarn lint:css`、`yarn build:*`
+- 后端为 Maven 多模块 Java 8 工程，根目录 `{BACKEND_ROOT}/ai`：
+  - 主要模块：`ai-admin`、`ai-open-api`、`ai-server`、`ai-dataaccess`、`ai-domain`、`ai-common`、`ai-cache`、`ai-task`、`ai-sms`、`ai-sms-core`、`ai-decision-system`、`nacos`、`rocketmq`、`kafka` 等
+  - 技术栈：Spring Boot 2.3.x / Spring Cloud 2.2.x、JFinal、iBatis/SQLMap、Nacos、RocketMQ、Kafka、Redis、MySQL、ClickHouse、MongoDB、Groovy、JUnit 4
+
+执行时必须先根据 task 涉及的业务域定位具体子项目/模块，再读取该子项目的 manifest、配置、README 和既有代码风格；不要只因为命中了根目录就默认修改所有项目。
 
 ## 流程图
 

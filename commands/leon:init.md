@@ -4,6 +4,20 @@
 
 ## 执行步骤
 
+## 项目路径提示
+
+初始化时从用户指定路径、当前工作目录或项目 manifest 推断代码根目录，并按角色记录：
+
+- 前端代码根目录：`FRONTEND_ROOT`
+  - `ai-admin-ui`：Vue 2.7 + Vue CLI/Webpack + Element UI + Vuex + Vue Router，Yarn
+  - `ai-decision-system-ui`：Vue 2.7 + Vue CLI/Webpack + Element UI + Vuex + Vue Router + qiankun/wujie，Yarn
+  - `ai-seat-console`：Vue 2.7 + Vite 4 + TypeScript + Element UI + Vuex + Vue Router，Yarn
+- 后端 Maven 根目录：`{BACKEND_ROOT}/ai`
+  - Maven 多模块 Java 8：`ai-admin`、`ai-open-api`、`ai-server`、`ai-dataaccess`、`ai-domain`、`ai-common`、`ai-cache`、`ai-task`、`ai-sms`、`ai-decision-system`、`nacos`、`rocketmq`、`kafka` 等
+  - 主要技术：Spring Boot/Spring Cloud、JFinal、iBatis/SQLMap、Nacos、RocketMQ、Kafka、Redis、MySQL、ClickHouse、MongoDB、JUnit 4
+
+初始化时必须针对具体子项目或后端根工程生成 `.claude/`；不要把前端三个项目和后端多模块混成一个单体规则文件，除非用户明确要求在公共根目录统一初始化。禁止写死某台机器的绝对路径。
+
 ### 0. 检测已有 .claude/（前置判断）
 
 在做任何事之前，先检查当前项目根目录是否已存在 `.claude/` 文件夹：
