@@ -1,0 +1,7 @@
+backups/
+file-history/
+ide/
+projects/
+session-env/
+telemetry/
+.last-cleanup
