@@ -57,6 +57,7 @@
 | 前端 | `leon-frontend-engineer` | 前端页面/组件 task |
 | 后端 | `leon-backend-engineer` | API/procedure、认证、服务端业务 task |
 | 数据库 | `leon-database-engineer` | schema/migration/查询层 task |
+| 合约 | `leon-contract-engineer` | 智能合约开发 task |
 
 如果当前环境没有 Agent 工具，或任务边界无法清晰隔离，则退化为主流程串行执行。
 

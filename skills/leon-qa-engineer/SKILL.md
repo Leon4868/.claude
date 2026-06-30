@@ -20,7 +20,7 @@ description: QA 工程师 Skill，执行功能测试、E2E 测试、可视化回
 - **单元/组件测试**：Vitest / Jest / Mocha / pytest / Go testing / Rust cargo test
 - **E2E 测试**：Playwright / Cypress / Selenium / Puppeteer
 - **覆盖率工具**：c8 / istanbul / coverage.py / go cover
-- 如项目未配置测试框架，根据技术栈推荐并安装
+- 如项目未配置测试框架，根据技术栈推荐并安装（如 `npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom`），并确认构建工具的 test 配置（如 `vite.config.ts` 中的 `test` 字段）已就绪
 
 ### 2. 读取上下文
 
@@ -31,11 +31,12 @@ description: QA 工程师 Skill，执行功能测试、E2E 测试、可视化回
 
 ### 3. 补全测试
 
-对开发阶段未写测试的代码补充：
+对开发阶段未写测试的代码补充，测试文件放在源文件同目录，命名为 `{filename}.test.tsx`（或项目已有约定）：
 
-- **组件**：渲染测试、交互测试、Props 边界
+- **组件** (`*.tsx`)：渲染测试（是否正常渲染）、交互测试（用户操作的预期效果）、Props 边界（不同 props 下的行为）、边界情况（空数据、错误状态）
 - **API/服务层**：正常流、异常流、边界值
-- **工具函数**：输入输出覆盖
+- **工具函数** (`utils/*.ts`)：正常输入、边界值、异常输入
+- **Hooks** (`hooks/*.ts`)：用 `renderHook` 测试
 - **数据库层**：migration 可执行、查询结果正确
 
 遵循项目已有的测试文件命名和目录约定。

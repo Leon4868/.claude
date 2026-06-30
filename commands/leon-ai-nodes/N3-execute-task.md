@@ -37,13 +37,14 @@
 | 前端 | skill `leon-frontend-engineer` | `leon-frontend-engineer` |
 | 后端 | skill `leon-backend-engineer` | `leon-backend-engineer` |
 | 数据库 | skill `leon-database-engineer` | `leon-database-engineer` |
-| 合约 | skill `leon-contract-engineer` | （暂无 subagent，串行执行） |
+| 合约 | skill `leon-contract-engineer` | `leon-contract-engineer` |
 | QA/测试 | skill `leon-qa-engineer` | `leon-qa-engineer`（一般在 N6 派发） |
 | 没有匹配 | AI 直接执行 | — |
 
 - **串行执行**：在当前会话直接调用对应 `leon-*` skill（上下文连贯，最稳）。
-- **并行执行**：由 N2 用 Agent 工具派发对应 `subagent_type` 的角色化 subagent；subagent 内部会自行加载同名 skill。
-- 合约、安全（`leon-security`）、代码审查（`leon-code-reviewer`）、文档同步（`leon-doc-syncer`）按设计保持 skill 串行调用，不做成并行 subagent。
+- **并行执行**：由 N2 用 Agent 工具派发对应 `subagent_type` 的角色化 subagent（定义在 `~/.claude/agents/leon/`）；subagent 内部会自行加载同名 skill。
+- 安全（`leon-security`）、代码审查（`leon-code-reviewer`）按设计保持 skill 串行调用，不做成并行 subagent：代码审查在发现安全问题时要暂停等待 Telegram 审批，这个等待-恢复的交互放在主流程里直接处理最简单；安全扫描本身是耗时长的 CLI 任务，不需要多轮推理决策。
+- 文档同步（`leon-doc-syncer`）在 N8 阶段可派发为 subagent（详见 N8），因为它是全部开发完成后才跑一次的收尾任务，过程产出（git diff、多项目扫描）体量大且对主流程无复用价值，适合丢进独立上下文。
 
 ## 开发
 

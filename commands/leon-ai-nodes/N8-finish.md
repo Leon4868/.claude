@@ -11,7 +11,7 @@
 
 ## 1. 调用 leon-doc-syncer
 
-调用 `leon-doc-syncer` skill 完成文档同步：
+用 Agent 工具派发 `leon-doc-syncer` subagent（定义在 `~/.claude/agents/leon/`），prompt 传齐 **specs 文件夹路径、本次涉及的代码项目路径、LESSONS.md 路径**。subagent 内部加载同名 skill 执行：
 
 - README 精炼更新（架构 + 业务 + 快速开始）
 - .claude/CLAUDE.md 和 rules/ 同步
@@ -23,6 +23,8 @@
   - 涉及的具体项目/模块、验证命令、接口契约和数据库/SQLMap 影响
 
 文档同步只更新与本次 feature/task 相关的内容；不得重写无关 README、CLAUDE.md、rules 或用户自定义章节。发现文档冲突时列入总结，不强行覆盖。
+
+> 如果当前环境没有 Agent 工具，或本次改动范围很小（单 feature、几个文件），可退化为主流程 inline 调用 `leon-doc-syncer` skill，不强制派 subagent。
 
 ## 2. 输出总结
 
