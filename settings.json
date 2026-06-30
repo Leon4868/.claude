@@ -1,41 +1,5 @@
 {
-  "env": {
-    "CLAUDE_PLUGIN_ROOT": "/Users/zhizhidemac/.claude/plugins/codex",
-    "PATH": "/Users/zhizhidemac/.local/bin:/Users/zhizhidemac/.hermes/node/bin:/Users/zhizhidemac/.codex/tmp/arg0/codex-arg09P73Fh:/Users/zhizhidemac/.local/bin:/Users/zhizhidemac/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/zhizhidemac/.nvm/versions/node/v24.16.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/usr/local/corplink/mdm/opt/corplink-mdm/bin:/Applications/Codex.app/Contents/Resources"
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-lifecycle-hook.mjs\" SessionStart",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-lifecycle-hook.mjs\" SessionEnd",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/stop-review-gate-hook.mjs\"",
-            "timeout": 900
-          }
-        ]
-      }
-    ]
-  }
+  "env": {},
+  "effortLevel": "medium",
+  "theme": "dark"
 }
