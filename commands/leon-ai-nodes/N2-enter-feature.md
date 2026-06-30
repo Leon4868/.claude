@@ -3,6 +3,7 @@
 1. 读取该 feature 的 requirements.md、design.md、tasks.md
 2. 断点恢复：`[x]` 已完成 → 跳过，`[DROPPED]` → 跳过，`[CHANGED]` → 按更新后描述执行
 3. 如该 feature 所有任务已完成 → 跳过，进入下一个 feature
+4. 如 PLAN.md 标记该 feature 依赖的其他 feature 未完成 → 暂停或跳过该 feature，进入下一个可执行 feature；不得绕过依赖直接开发
 
 ## 项目定位
 
@@ -23,17 +24,20 @@
 
 执行计划里每个 task 必须标注目标项目/模块，避免跨项目误改。
 
+若定位结果与 requirements.md / design.md 中的「目标代码位置」冲突，必须先用代码搜索核验；仍无法判断时暂停确认。
+
 ## 任务数检查（强制）
 
 读取 tasks.md 后，统计未完成任务数（`[ ]` 的行）：
 
 - **≤8 个** → 正常执行
-- **>8 个** → 自动拆分：
-  1. 保留前 8 个任务在当前 tasks.md
-  2. 将剩余任务写入新 feature 目录 `{N+0.5}.{feature-name}-part2/`（编号取当前最大编号+1）
-  3. 新目录复制当前的 requirements.md 和 design.md，tasks.md 只含剩余任务
-  4. 输出提示：`⚠️ 任务数超出上限，已自动拆分为 {新feature目录名}`
-  5. 继续执行当前 feature
+- **>8 个** → 不得机械按“前 8 个 / 剩余任务”拆分。先进入拆分评估：
+  1. 按「功能闭环 + 依赖最少」重新分组，每组目标 4-8 个任务。
+  2. 只有当分组边界清晰、无依赖环、requirements/design 能同步裁剪时，才自动拆分。
+  3. 新 feature 编号取当前 specs 最大整数编号 + 1，禁止使用 `{N+0.5}` 这类非标准编号。
+  4. 同步更新 `PLAN.md`：新增 feature 行、依赖列、状态、推荐执行顺序。
+  5. 同步裁剪/复制 requirements.md、design.md、tasks.md，确保每个目录只保留属于该 feature 的内容。
+  6. 若无法可靠拆分，暂停并要求用户先回到 `/leon:prd` 调整 specs。
 
 ## 执行计划
 
@@ -44,6 +48,7 @@
 | 有显式依赖 | 无依赖 |
 | 会修改同一文件/模块 | 分属不同代码项目 |
 | 涉及共享状态定义（schema、API） | 天然隔离 |
+| 需要共享上下文连续推理 | 可用清晰输入/输出交接 |
 
 并行时用 Agent 工具派发**角色化 subagent**（定义在 `~/.claude/agents/`），按工种选择 `subagent_type`：
 
@@ -52,6 +57,8 @@
 | 前端 | `leon-frontend-engineer` | 前端页面/组件 task |
 | 后端 | `leon-backend-engineer` | API/procedure、认证、服务端业务 task |
 | 数据库 | `leon-database-engineer` | schema/migration/查询层 task |
+
+如果当前环境没有 Agent 工具，或任务边界无法清晰隔离，则退化为主流程串行执行。
 
 派发时在 prompt 里务必传齐：**specs 路径、本次 task 编号与描述、代码项目路径**（subagent 是冷启动，要靠这些自行加载上下文）。每个 subagent 内部会加载同名 `leon-*` skill 执行，并在最终消息回报「文件清单 + 验证结果 + 待配合事项」。
 
@@ -62,6 +69,8 @@
 - 数据访问：`{BACKEND_ROOT}/ai/ai-dataaccess`
 
 所有任务都有依赖时退化为全串行（此时不派 subagent，在主流程 inline 调用 skill）。
+
+并行任务回收后必须先合并结果、核对变更文件是否冲突，再进入 N4；如多个 subagent 修改同一文件或同一接口契约，必须暂停人工合并或改为串行。
 
 输出：
 
