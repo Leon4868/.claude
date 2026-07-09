@@ -5,3 +5,6 @@ projects/
 session-env/
 telemetry/
 .last-cleanup
+# 凭据文件，禁止入库
+.credentials.json
+codex-reviews/
