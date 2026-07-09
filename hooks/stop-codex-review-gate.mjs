@@ -18,7 +18,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
-const REVIEW_TIMEOUT_MS = 15 * 60 * 1000;
+const REVIEW_TIMEOUT_MS = 3 * 60 * 1000;
 const MAX_DEPTH = 2;
 const MAX_FINDINGS_IN_REASON = 5;
 const MAX_REVIEW_FILES_PER_REPO = 20;
