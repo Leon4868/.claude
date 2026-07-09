@@ -5,6 +5,9 @@
 // changes, and for each one run a real Codex adversarial review, leaving the
 // conclusion as a markdown file under ~/.claude/codex-reviews/<repo-name>/.
 //
+// Only runs while a /goal is active in the session (goal mode). Any other
+// Stop invocation passes through untouched.
+//
 // ALLOW (verdict: approve) -> stop proceeds.
 // BLOCK (verdict: needs-attention, or the review itself errors/times out)
 // -> stop is blocked with the findings fed back, so Claude fixes and retries.
@@ -73,6 +76,50 @@ function findGitRepos(root, depth = MAX_DEPTH) {
     repos.push(...findGitRepos(path.join(root, entry.name), depth - 1));
   }
   return repos;
+}
+
+/**
+ * Goal mode (/goal) leaves goal_status attachments in the transcript:
+ * set -> { met: false, sentinel: true }, cleared -> { met: true, sentinel: true },
+ * per-iteration -> { met: false }, met -> { met: true }, impossible -> { failed: true }.
+ * The most recent goal_status entry therefore tells us whether a goal is
+ * still in progress. No transcript / no goal_status entry means no goal.
+ */
+function isGoalModeActive(input) {
+  const transcriptPath = input?.transcript_path;
+  if (!transcriptPath) return false;
+
+  let raw;
+  try {
+    raw = fs.readFileSync(transcriptPath, "utf8");
+  } catch {
+    return false;
+  }
+
+  const lines = raw.split("\n");
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const line = lines[i];
+    if (!line.includes("goal_status")) continue;
+
+    let entry;
+    try {
+      entry = JSON.parse(line);
+    } catch {
+      continue;
+    }
+
+    const attachment =
+      entry?.attachment?.type === "goal_status"
+        ? entry.attachment
+        : entry?.message?.attachment?.type === "goal_status"
+          ? entry.message.attachment
+          : null;
+    if (!attachment) continue;
+
+    return attachment.met === false && attachment.failed !== true;
+  }
+
+  return false;
 }
 
 function timestamp() {
@@ -189,6 +236,12 @@ function writeReviewFile(repoDir, review) {
 
 function main() {
   const input = readHookInput();
+
+  // 非 goal 模式（普通 Stop、其他来源接入的 hook）直接放行，不跑审查
+  if (!isGoalModeActive(input)) {
+    return;
+  }
+
   const root = process.env.CLAUDE_PROJECT_DIR || input.cwd || process.cwd();
 
   const dirtyRepos = findGitRepos(root).filter(hasChanges);

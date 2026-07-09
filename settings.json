@@ -44,6 +44,15 @@
             "timeout": 900
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/.claude/hooks/stop-codex-review-gate.mjs\"",
+            "timeout": 900
+          }
+        ]
       }
     ]
   },
