@@ -1,0 +1,247 @@
+{
+  "hooks": {
+    "ConfigChange": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "CwdChanged": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "ElicitationResult": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "InstructionsLoaded": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code --blocking",
+            "timeout": 86400,
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "TeammateIdle": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "command": "\"/Users/zhizhidemac/Library/Application Support/GitKrakenCLI/gk\" ai hook run --host claude-code",
+            "type": "command"
+          }
+        ]
+      }
+    ]
+  }
+}

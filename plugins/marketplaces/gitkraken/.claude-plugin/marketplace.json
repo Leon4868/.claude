@@ -1,0 +1,14 @@
+{
+  "name": "gitkraken",
+  "description": "Plugins from GitKraken to enhance AI coding workflows in GitKraken Desktop, GitLens, and other GitKraken products.",
+  "owner": {
+    "name": "GitKraken"
+  },
+  "plugins": [
+    {
+      "name": "gitkraken-hooks",
+      "source": "./plugins/gitkraken-hooks",
+      "description": "Live AI session tracking for GitKraken products. See what Claude is doing in real time — current tool, active prompt, subagents — and optionally approve or deny tool calls from the UI."
+    }
+  ]
+}

@@ -9,42 +9,23 @@
 
 ## 代码定位与项目约束
 
-执行前必须再次确认本 task 的目标项目/模块：
-
-- 前端根目录：`FRONTEND_ROOT`
-  - `ai-admin-ui`、`ai-decision-system-ui`：Vue 2.7 + Vue CLI/Webpack + Element UI + Vuex + Vue Router，主要文件在 `src/views/`、`src/components/`、`src/router/`、`src/store/`、`src/services/`
-  - `ai-seat-console`：Vue 2.7 + Vite + TypeScript，主要文件在 `src/`，优先保持 TS/Vite 现有写法
-- 后端根目录：`{BACKEND_ROOT}/ai`
-  - Maven 多模块 Java 8，按 controller/service/domain/dataaccess/sqlmap 分层定位
-  - 重点模块包括 `ai-admin`、`ai-open-api`、`ai-server`、`ai-dataaccess`、`ai-domain`、`ai-common`、`ai-cache`、`ai-task`、`ai-sms`、`ai-decision-system`
+执行前必须再次确认本 task 的目标项目/模块（技术栈、文件位置、复用约定见架构画像 `~/.claude/commands/leon-ai-nodes/project-profile.md`）。
 
 约束：
 
 - 不跨项目做无关重构；只修改 task 明确涉及的子项目/模块
 - 开发前记录本 task 起始 diff 范围；只把本 task 新增/修改的文件交给 N4 审查，不把用户已有改动误算进任务成果
-- 前端优先复用现有 Element UI、`@94ai/common-ui`、Vuex、router、services/axios 封装、`.vue + .es6/.scss` 拆分风格
-- `ai-seat-console` 可使用 TypeScript/Vite 生态，其他两个管理端默认保持 JavaScript/Vue CLI 风格
-- 后端优先复用现有 controller/service/DAO/SQLMap、JFinal/Spring 约定、DTO/VO/枚举和异常处理方式
-- 数据库相关变更必须同步 Java DAO/实体/SQLMap/XML 与必要的脚本或说明
 - 依赖 feature 未完成、接口契约不明确、目标模块无法确认时，必须暂停，不得先写代码占位
 
 ## Skill 匹配
 
 根据任务涉及的工种匹配：
 
-| 工种 | 串行（主流程 inline 调用 skill） | 并行（N2 派发 subagent，`subagent_type`） |
-| ---- | -------------------------------- | ----------------------------------------- |
-| 前端 | skill `leon-frontend-engineer` | `leon-frontend-engineer` |
-| 后端 | skill `leon-backend-engineer` | `leon-backend-engineer` |
-| 数据库 | skill `leon-database-engineer` | `leon-database-engineer` |
-| 合约 | skill `leon-contract-engineer` | `leon-contract-engineer` |
-| QA/测试 | skill `leon-qa-engineer` | `leon-qa-engineer`（一般在 N6 派发） |
-| 没有匹配 | AI 直接执行 | — |
-
-- **串行执行**：在当前会话直接调用对应 `leon-*` skill（上下文连贯，最稳）。
-- **并行执行**：由 N2 用 Agent 工具派发对应 `subagent_type` 的角色化 subagent（定义在 `~/.claude/agents/leon/`）；subagent 内部会自行加载同名 skill。
-- 安全（`leon-security`）、代码审查（`leon-code-reviewer`）按设计保持 skill 串行调用，不做成并行 subagent：代码审查在发现安全问题时要暂停等待 Telegram 审批，这个等待-恢复的交互放在主流程里直接处理最简单；安全扫描本身是耗时长的 CLI 任务，不需要多轮推理决策。
-- 文档同步（`leon-doc-syncer`）在 N8 阶段可派发为 subagent（详见 N8），因为它是全部开发完成后才跑一次的收尾任务，过程产出（git diff、多项目扫描）体量大且对主流程无复用价值，适合丢进独立上下文。
+- 前端 → skill `leon-frontend-engineer`；后端 → `leon-backend-engineer`；数据库 → `leon-database-engineer`；合约 → `leon-contract-engineer`；没有匹配 → AI 直接执行
+- **串行执行**：在当前会话直接调用对应 `leon-*` skill（上下文连贯，最稳）
+- **并行执行**：由 N2 派发角色化 subagent（见 N2 的 subagent 表），subagent 内部自行加载同名 skill
+- 安全扫描（`leon-security`）保持 skill 串行调用，不做成并行 subagent：它是耗时 CLI 任务，不需要多轮推理；代码审查由 N4 的 AI 自审 + `codex:review` 承担
+- 文档同步（`leon-doc-syncer`）在 N5 阶段派发为 subagent（详见 N5）
 
 ## 开发
 
@@ -53,10 +34,7 @@
 - 技术选型自行选最优解，不暂停
 - 业务逻辑/产品方向问题 → 暂停与用户沟通
 - 如果发现 specs 与现有代码事实冲突，优先相信代码事实；同步记录到 LESSONS.md 候选项，并在必要时暂停确认
-- 验证命令按实际项目选择：
-  - `ai-admin-ui`、`ai-decision-system-ui`：优先 `yarn lint`；需自动修复时用 `yarn fix`
-  - `ai-seat-console`：优先 `yarn lint` 和必要时 `yarn lint:css`
-  - 后端 Maven 模块：优先执行相关模块的 `mvn test` 或 `mvn -pl {module} -am test`；若环境依赖导致无法运行，记录阻塞原因并做静态核查
+- 开发完成后按架构画像「验证命令」运行一次验证（lint / mvn test）；这是本 task 的基准验证，N4 仅在有后续修复时才重跑
 
 ## 输出交接给 N4
 

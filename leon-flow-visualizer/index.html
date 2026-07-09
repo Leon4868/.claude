@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>Leon AI Workflow Visualizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0d1117; overflow: hidden; font-family: 'Press Start 2P', monospace; }
+  #game { position: relative; width: 960px; height: 640px; margin: 24px auto; box-shadow: 0 0 0 4px #30363d, 0 0 40px rgba(0,0,0,.6); }
+  #hud {
+    position: absolute; top: 16px; left: 16px; z-index: 10;
+    background: rgba(13,17,23,.88); border: 3px solid #58a6ff; border-radius: 6px;
+    padding: 10px 14px; color: #e6edf3; font-size: 10px; line-height: 1.9; min-width: 300px;
+    image-rendering: pixelated;
+  }
+  #hud h1 { font-size: 12px; margin: 0 0 8px; color: #58a6ff; }
+  #hud .row { display: flex; justify-content: space-between; gap: 10px; }
+  #hud .label { color: #8b949e; }
+  #badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 9px; }
+  .badge-idle { background: #30363d; color: #8b949e; }
+  .badge-running { background: #196c2e; color: #7ee787; animation: pulse 1.2s infinite; }
+  .badge-paused { background: #7d4e00; color: #ffd966; }
+  .badge-done { background: #1f6feb; color: #c9d1d9; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+  #msg { margin-top: 6px; color: #79c0ff; word-break: break-all; min-height: 14px; }
+  #updated { position: absolute; bottom: 16px; left: 16px; z-index: 10; color: #6e7681; font-size: 9px;
+    background: rgba(13,17,23,.7); padding: 4px 8px; border-radius: 4px; }
+  #offline { position: absolute; top: 16px; right: 16px; z-index: 10; color: #f85149; font-size: 9px;
+    background: rgba(13,17,23,.85); border: 2px solid #f85149; border-radius: 4px; padding: 6px 10px; display: none; }
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="hud">
+    <h1>🐍 LEON AI WORKFLOW</h1>
+    <div class="row"><span class="label">NODE</span><span id="nodeText">--</span></div>
+    <div class="row"><span class="label">STATUS</span><span id="badge" class="badge-idle">idle</span></div>
+    <div class="row"><span class="label">FEATURE</span><span id="featureText">-</span></div>
+    <div class="row"><span class="label">TASK</span><span id="taskText">-</span></div>
+    <div id="msg"></div>
+  </div>
+  <div id="updated">updated: --</div>
+  <div id="offline">⚠ state.json 读取失败，确认 server.mjs 是否在运行</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<script>
+const NODES = {
+  N1: { x: 130, y: 380, label: '初始化',        icon: '🏁', color: 0x4f8cff },
+  N2: { x: 305, y: 380, label: '进入Feature',   icon: '📂', color: 0x4fd1c5 },
+  N3: { x: 480, y: 380, label: '执行Task',      icon: '🔨', color: 0xf6ad55 },
+  N4: { x: 655, y: 380, label: '审查收尾',      icon: '🔍', color: 0xf56565 },
+  N5: { x: 830, y: 380, label: '完成',          icon: '🎉', color: 0xf6e05e },
+};
+const SOLID_EDGES = [['N1','N2'],['N2','N3'],['N3','N4'],['N4','N5']];
+const LOOP_EDGES = [['N4','N3'],['N4','N2']];
+const ADJ = {};
+for (const k of Object.keys(NODES)) ADJ[k] = [];
+for (const [a,b] of [...SOLID_EDGES, ...LOOP_EDGES]) { ADJ[a].push(b); ADJ[b].push(a); }
+
+function shortestPath(from, to) {
+  if (from === to) return [from];
+  const queue = [[from]];
+  const seen = new Set([from]);
+  while (queue.length) {
+    const path = queue.shift();
+    const last = path[path.length - 1];
+    for (const next of ADJ[last]) {
+      if (seen.has(next)) continue;
+      const newPath = [...path, next];
+      if (next === to) return newPath;
+      seen.add(next);
+      queue.push(newPath);
+    }
+  }
+  return [to];
+}
+
+class MapScene extends Phaser.Scene {
+  constructor() { super('map'); this.currentNode = null; this.moving = false; this.queue = []; }
+
+  create() {
+    // 背景草地纹理
+    const g = this.add.graphics();
+    for (let x = 0; x < 960; x += 32) {
+      for (let y = 0; y < 640; y += 32) {
+        const shade = (Math.floor(x/32) + Math.floor(y/32)) % 2 === 0 ? 0x1c2b1f : 0x18241b;
+        g.fillStyle(shade, 1).fillRect(x, y, 32, 32);
+      }
+    }
+
+    // 道路（实线）
+    const road = this.add.graphics();
+    for (const [a, b] of SOLID_EDGES) {
+      const A = NODES[a], B = NODES[b];
+      road.lineStyle(14, 0x3a3f4b, 1).beginPath().moveTo(A.x, A.y).lineTo(B.x, B.y).strokePath();
+      road.lineStyle(3, 0xf0db4f, 1).setLineDash?.([10,8]);
+    }
+    // 虚线中线
+    for (const [a, b] of SOLID_EDGES) {
+      const A = NODES[a], B = NODES[b];
+      this.dashedLine(road, A.x, A.y, B.x, B.y, 0xf0db4f, 2, 10, 8);
+    }
+    // 回流路径（弧线虚线，弱化颜色）
+    const loop = this.add.graphics();
+    for (const [a, b] of LOOP_EDGES) {
+      const A = NODES[a], B = NODES[b];
+      const midX = (A.x + B.x) / 2;
+      const midY = Math.min(A.y, B.y) - 60 - Math.abs(A.x - B.x) * 0.25;
+      this.dashedCurve(loop, A, {x: midX, y: midY}, B, 0x6e7681, 2);
+    }
+
+    // 建筑
+    this.buildingGlow = {};
+    for (const [id, n] of Object.entries(NODES)) {
+      const base = this.add.graphics();
+      base.fillStyle(n.color, 1).fillRoundedRect(n.x - 34, n.y - 26, 68, 52, 6);
+      base.fillStyle(0x111111, 0.25).fillRoundedRect(n.x - 34, n.y - 26, 68, 52, 6);
+      base.lineStyle(3, 0xffffff, 0.85).strokeRoundedRect(n.x - 34, n.y - 26, 68, 52, 6);
+      // 屋顶
+      base.fillStyle(0x21262d, 1);
+      base.fillTriangle(n.x - 40, n.y - 26, n.x + 40, n.y - 26, n.x, n.y - 56);
+      base.lineStyle(2, 0xffffff, 0.6).strokeTriangle(n.x - 40, n.y - 26, n.x + 40, n.y - 26, n.x, n.y - 56);
+
+      const glow = this.add.circle(n.x, n.y, 46, n.color, 0.0);
+      this.buildingGlow[id] = glow;
+
+      this.add.text(n.x, n.y - 4, n.icon, { fontSize: '22px' }).setOrigin(0.5);
+      this.add.text(n.x, n.y + 40, id, { fontFamily: 'Press Start 2P', fontSize: '11px', color: '#ffffff' }).setOrigin(0.5);
+      this.add.text(n.x, n.y + 58, n.label, { fontFamily: 'Press Start 2P', fontSize: '8px', color: '#c9d1d9' }).setOrigin(0.5);
+    }
+
+    // 玩家角色
+    this.player = this.add.container(NODES.N1.x, NODES.N1.y - 70);
+    const body = this.add.circle(0, 0, 12, 0xffffff);
+    const face = this.add.circle(0, -2, 6, 0xffd54f);
+    const shadow = this.add.ellipse(0, 16, 22, 8, 0x000000, 0.35);
+    this.player.add([shadow, body, face]);
+    this.player.setDepth(20);
+    this.tweens.add({ targets: this.player, y: '+=6', duration: 600, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+
+    this.speechBubble = this.add.text(0, 0, '', {
+      fontFamily: 'Press Start 2P', fontSize: '8px', color: '#0d1117', backgroundColor: '#ffd54f',
+      padding: { x: 6, y: 4 },
+    }).setDepth(21).setVisible(false);
+
+    this.footprints = [];
+    this.confettiEmitter = null;
+
+    this.goToNode('N1', true);
+    this.startPolling();
+  }
+
+  dashedLine(g, x1, y1, x2, y2, color, width, dash, gap) {
+    const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
+    const steps = Math.floor(dist / (dash + gap));
+    const dx = (x2 - x1) / dist, dy = (y2 - y1) / dist;
+    g.lineStyle(width, color, 1);
+    let pos = 0;
+    for (let i = 0; i <= steps; i++) {
+      const sx = x1 + dx * pos, sy = y1 + dy * pos;
+      const ex = x1 + dx * Math.min(pos + dash, dist), ey = y1 + dy * Math.min(pos + dash, dist);
+      g.beginPath().moveTo(sx, sy).lineTo(ex, ey).strokePath();
+      pos += dash + gap;
+    }
+  }
+
+  dashedCurve(g, A, M, B, color, width) {
+    const curve = new Phaser.Curves.QuadraticBezier(
+      new Phaser.Math.Vector2(A.x, A.y), new Phaser.Math.Vector2(M.x, M.y), new Phaser.Math.Vector2(B.x, B.y)
+    );
+    const points = curve.getPoints(40);
+    g.lineStyle(width, color, 0.8);
+    for (let i = 0; i < points.length - 1; i += 2) {
+      const p1 = points[i], p2 = points[i + 1];
+      if (!p2) break;
+      g.beginPath().moveTo(p1.x, p1.y).lineTo(p2.x, p2.y).strokePath();
+    }
+  }
+
+  setGlow(id, on) {
+    const glow = this.buildingGlow[id];
+    if (!glow) return;
+    this.tweens.killTweensOf(glow);
+    if (on) {
+      glow.setAlpha(0.35);
+      this.tweens.add({ targets: glow, alpha: 0.12, duration: 700, yoyo: true, repeat: -1 });
+    } else {
+      glow.setAlpha(0);
+    }
+  }
+
+  dropFootprint(id) {
+    const n = NODES[id];
+    const dot = this.add.circle(n.x + Phaser.Math.Between(-10,10), n.y + 70, 3, 0xffffff, 0.5);
+    this.footprints.push(dot);
+    if (this.footprints.length > 30) this.footprints.shift().destroy();
+  }
+
+  goToNode(id, instant) {
+    const n = NODES[id];
+    if (!n) return;
+    Object.keys(NODES).forEach(k => this.setGlow(k, k === id));
+    if (instant) {
+      this.player.setPosition(n.x, n.y - 70);
+      this.currentNode = id;
+      return;
+    }
+    this.movePlayerAlong(shortestPath(this.currentNode || id, id));
+  }
+
+  movePlayerAlong(path) {
+    if (this.moving) { this.queue = path; return; }
+    this.moving = true;
+    const steps = path.slice(1);
+    const next = () => {
+      if (!steps.length) {
+        this.moving = false;
+        if (this.queue.length) { const q = this.queue; this.queue = []; this.movePlayerAlong(q); }
+        return;
+      }
+      const id = steps.shift();
+      const n = NODES[id];
+      this.dropFootprint(this.currentNode);
+      this.tweens.add({
+        targets: this.player, x: n.x, y: n.y - 70, duration: 420, ease: 'Sine.easeInOut',
+        onComplete: () => { this.currentNode = id; next(); },
+      });
+    };
+    next();
+  }
+
+  showSpeech(text) {
+    if (!text) { this.speechBubble.setVisible(false); return; }
+    this.speechBubble.setText(text.length > 26 ? text.slice(0, 26) + '…' : text);
+    this.speechBubble.setPosition(this.player.x - this.speechBubble.width / 2, this.player.y - 60);
+    this.speechBubble.setVisible(true);
+  }
+
+  celebrate() {
+    if (this.confettiEmitter) return;
+    const colors = [0xff5555, 0x55ff55, 0x5599ff, 0xffd54f, 0xff77dd];
+    for (let i = 0; i < 40; i++) {
+      const c = this.add.rectangle(NODES.N5.x, NODES.N5.y - 80, 5, 5, colors[i % colors.length]);
+      this.tweens.add({
+        targets: c,
+        x: NODES.N5.x + Phaser.Math.Between(-120, 120),
+        y: NODES.N5.y + Phaser.Math.Between(-40, 60),
+        angle: Phaser.Math.Between(0, 360),
+        alpha: 0,
+        duration: Phaser.Math.Between(900, 1600),
+        delay: i * 20,
+        onComplete: () => c.destroy(),
+      });
+    }
+    this.confettiEmitter = true;
+    this.time.delayedCall(2000, () => { this.confettiEmitter = null; });
+  }
+
+  startPolling() {
+    let lastNode = null, lastStatus = null;
+    const poll = async () => {
+      try {
+        const res = await fetch('state.json?t=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error('bad status');
+        const data = await res.json();
+        document.getElementById('offline').style.display = 'none';
+        applyHud(data);
+        if (data.node && data.node !== lastNode) {
+          this.goToNode(data.node, false);
+          lastNode = data.node;
+        }
+        if (data.status === 'done' && data.node === 'N5' && lastStatus !== 'done') this.celebrate();
+        lastStatus = data.status;
+        this.showSpeech(data.message);
+      } catch (e) {
+        document.getElementById('offline').style.display = 'block';
+      }
+    };
+    poll();
+    setInterval(poll, 1500);
+  }
+}
+
+function applyHud(data) {
+  document.getElementById('nodeText').textContent = `${data.node || '-'} ${data.nodeLabel || ''}`;
+  const badge = document.getElementById('badge');
+  badge.textContent = data.status || 'idle';
+  badge.className = 'badge-' + (data.status || 'idle');
+  document.getElementById('featureText').textContent =
+    data.feature ? `${data.feature} (${data.featureIndex || 0}/${data.featureTotal || 0})` : '-';
+  document.getElementById('taskText').textContent =
+    data.task ? `${data.task} (${data.taskIndex || 0}/${data.taskTotal || 0})` : '-';
+  document.getElementById('msg').textContent = data.message || '';
+  const t = data.updatedAt ? new Date(data.updatedAt) : null;
+  document.getElementById('updated').textContent = 'updated: ' + (t ? t.toLocaleTimeString() : '--');
+}
+
+new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 960,
+  height: 640,
+  parent: 'game',
+  backgroundColor: '#0d1117',
+  pixelArt: true,
+  scene: MapScene,
+});
+</script>
+</body>
+</html>

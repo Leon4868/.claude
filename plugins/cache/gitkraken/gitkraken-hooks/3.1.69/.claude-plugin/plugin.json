@@ -1,0 +1,5 @@
+{
+  "name": "gitkraken-hooks",
+  "version": "3.1.69",
+  "description": "Live AI session tracking for GitKraken products. See what Claude is doing in real time — current tool, active prompt, subagents — and optionally approve or deny tool calls from the UI."
+}

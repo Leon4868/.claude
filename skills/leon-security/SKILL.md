@@ -1,3 +1,8 @@
+---
+name: leon-security
+description: 安全扫描 Skill，基于 METATRON 对部署目标执行自动化渗透测试和漏洞检测（nmap/nikto 等），仅用于授权范围内的自有目标
+---
+
 # leon-security — 安全扫描 Skill
 
 基于 [METATRON](https://github.com/sooryathejas/METATRON) 的安全扫描 skill，对部署目标执行自动化渗透测试和漏洞检测。

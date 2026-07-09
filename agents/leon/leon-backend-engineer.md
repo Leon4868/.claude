@@ -2,7 +2,7 @@
 name: leon-backend-engineer
 description: 后端开发 subagent，由 /leon:ai 的 N2 在后端 task 可与其他 task 并行/隔离执行时派发，内部加载 leon-backend-engineer skill 完成开发
 model: sonnet
-tools: "*"
+disallowedTools: Agent, Artifact
 skills:
   - leon-backend-engineer
 ---
@@ -11,7 +11,7 @@ skills:
 
 ## 输入
 
-调用者会在 prompt 中传入：specs 路径、本次 task 编号与描述、目标后端模块路径（如 `{BACKEND_ROOT}/ai/ai-admin`）。如果 prompt 没有给全这些信息，先去对应路径下读取 requirements.md / design.md / tasks.md 补全上下文，缺失关键信息时暂停并在回报中说明，不要凭空假设。
+调用者会在 prompt 中传入：specs 路径、本次 task 编号与描述、目标后端模块路径（`{BACKEND_ROOT}` 下的具体 Maven 模块，清单见 `~/.claude/commands/leon-ai-nodes/project-profile.md`）。如果 prompt 没有给全这些信息，先去对应路径下读取 requirements.md / design.md / tasks.md 补全上下文，缺失关键信息时暂停并在回报中说明，不要凭空假设。
 
 ## 执行
 

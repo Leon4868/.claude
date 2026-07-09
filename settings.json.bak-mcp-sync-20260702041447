@@ -47,42 +47,6 @@
       }
     ]
   },
-  "effortLevel": "high",
-  "theme": "dark",
-  "mcpServers": {
-    "playwright": {
-      "type": "stdio",
-      "command": "npx",
-      "args": [
-        "-y",
-        "@playwright/mcp@latest",
-        "--browser",
-        "chrome"
-      ]
-    },
-    "aws_mcp": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": [
-        "mcp-proxy-for-aws==1.6.2",
-        "https://aws-mcp.us-east-1.api.aws/mcp"
-      ],
-      "env": {
-        "AWS_REGION": "us-west-2",
-        "FASTMCP_LOG_LEVEL": "ERROR"
-      }
-    }
-  },
-  "enabledPlugins": {
-    "gitkraken-hooks@gitkraken": true
-  },
-  "extraKnownMarketplaces": {
-    "gitkraken": {
-      "source": {
-        "path": "/Users/zhizhidemac/.claude/plugins/marketplaces/gitkraken",
-        "source": "directory"
-      }
-    }
-  },
-  "model": "claude-fable-5[1m]"
+  "effortLevel": "medium",
+  "theme": "dark"
 }

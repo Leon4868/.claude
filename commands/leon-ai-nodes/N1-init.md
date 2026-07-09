@@ -11,15 +11,12 @@
 4. 读取 tasks.md 状态，统计 `[ ]`、`[x]`、`[DROPPED]`、`[CHANGED]`、`[NEW]`，建立断点恢复视图
 5. 检查 git working tree：
    - 允许存在用户已有改动，但必须记录启动前 diff 摘要
-   - 后续 N3/N4/N5 只能处理本轮 task 产生或明确归属本 task 的变更
+   - 后续 N3/N4 只能处理本轮 task 产生或明确归属本 task 的变更
    - 无法判断归属的改动不得覆盖、不得回滚，暂停询问
 6. 加载：代码项目的 `.claude/CLAUDE.md` + `.claude/rules/`
    - 若项目内暂无 `.claude/`，则读取 manifest 和关键配置作为替代上下文：前端读取 `package.json`、构建配置、路由、store、services；后端读取根 `pom.xml`、子模块 `pom.xml`、`src/main/profiles/`、controller/service/dao/sqlmap 结构
 7. 加载 `{SPECS_DIR}/LESSONS.md`（架构决策和踩坑记录，开发时必须参考）；文件不存在时视为空记录，不报错
-8. 验证各代码项目路径存在，并识别具体项目清单：
-   - 前端：`ai-admin-ui`、`ai-decision-system-ui`、`ai-seat-console`
-   - 后端：`{BACKEND_ROOT}/ai` Maven 多模块工程
-   - 输出本次执行使用的代码路径映射，后续 N2-N8 必须沿用该映射
+8. 读取架构画像 `~/.claude/commands/leon-ai-nodes/project-profile.md`，验证各代码项目路径存在，识别具体项目/模块清单，输出本次执行使用的代码路径映射，后续 N2-N5 必须沿用该映射
 
 ## 输出
 

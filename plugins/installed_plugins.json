@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "plugins": {
+    "gitkraken-hooks@gitkraken": [
+      {
+        "scope": "user",
+        "installPath": "/Users/zhizhidemac/.claude/plugins/cache/gitkraken/gitkraken-hooks/3.1.69",
+        "version": "3.1.69",
+        "installedAt": "2026-07-09T01:35:04.907Z",
+        "lastUpdated": "2026-07-09T01:35:04.907Z",
+        "gitCommitSha": "7e903bb182be36c60f59e21f38f33e2d05cf6588"
+      }
+    ]
+  }
+}

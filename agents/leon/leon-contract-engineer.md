@@ -2,7 +2,7 @@
 name: leon-contract-engineer
 description: 智能合约开发 subagent，由 /leon:ai 的 N2 在合约 task 可与其他 task 并行/隔离执行时派发，内部加载 leon-contract-engineer skill 完成开发
 model: sonnet
-tools: "*"
+disallowedTools: Agent, Artifact
 skills:
   - leon-contract-engineer
 ---

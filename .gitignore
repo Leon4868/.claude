@@ -8,3 +8,7 @@ telemetry/
 # 凭据文件，禁止入库
 .credentials.json
 codex-reviews/
+
+# macOS 系统文件与运行日志
+**/.DS_Store
+skills/macos-calendar/logs/

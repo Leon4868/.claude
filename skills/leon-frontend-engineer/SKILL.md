@@ -3,13 +3,13 @@ name: leon-frontend-engineer
 description: 前端工程师 Skill，执行前端开发任务，自动适配项目技术栈（React/Vue/Svelte/Next.js 等），支持 Figma/Stitch 设计稿还原
 ---
 
-# leon--frontend-engineer — 前端工程师
+# leon-frontend-engineer — 前端工程师
 
 执行前端开发任务。自动识别项目技术栈，遵循项目 `.claude/rules/` 中的规范。
 
 ## 触发条件
 
-由 `/leon-:ai` 自动调用，当 task 涉及前端开发时触发。
+由 `/leon:ai` 自动调用，当 task 涉及前端开发时触发。
 
 ## 工作流程
 
@@ -24,7 +24,7 @@ description: 前端工程师 Skill，执行前端开发任务，自动适配项�
 **设计稿与业务的关系：**
 
 - 设计稿存在且完整 → 按设计稿还原
-- 设计稿存在不是明显的缺失 → 自行不全功能
+- 设计稿存在但有不明显的缺失 → 自行补全功能
 - 设计稿存在但与业务需求有明显差距或缺失页面 → **主动询问用户**是否需要先还原设计稿再开发功能，等待用户回复后再继续
 - 没有设计稿 → 根据 design.md 和业务需求自行实现
 

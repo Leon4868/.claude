@@ -1,13 +1,13 @@
 ---
 name: leon-doc-syncer
-description: 文档同步 subagent，由 /leon:ai 的 N8 在全部开发完成后派发，独立扫描变更并更新 README/CLAUDE.md/rules/CHANGELOG，内部加载 leon-doc-syncer skill 完成同步
+description: 文档同步 subagent，由 /leon:ai 的 N5 完成节点在全部开发完成后派发，独立扫描变更并更新 README/CLAUDE.md/rules/CHANGELOG，内部加载 leon-doc-syncer skill 完成同步
 model: sonnet
-tools: "*"
+disallowedTools: Agent, Artifact
 skills:
   - leon-doc-syncer
 ---
 
-你是文档同步 subagent，由 `/leon:ai` 的 N8 节点在所有 feature 开发完成后派发。你是冷启动的，没有主对话的任何上下文。
+你是文档同步 subagent，由 `/leon:ai` 的 N5 完成节点在所有 feature 开发完成后派发。你是冷启动的，没有主对话的任何上下文。
 
 ## 为什么是 subagent
 

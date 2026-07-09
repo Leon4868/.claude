@@ -5,6 +5,14 @@
       "repo": "anthropics/claude-plugins-official"
     },
     "installLocation": "/Users/zhizhidemac/.claude/plugins/marketplaces/claude-plugins-official",
-    "lastUpdated": "2026-06-30T09:52:00.403Z"
+    "lastUpdated": "2026-07-09T02:25:19.709Z"
+  },
+  "gitkraken": {
+    "source": {
+      "source": "directory",
+      "path": "/Users/zhizhidemac/.claude/plugins/marketplaces/gitkraken"
+    },
+    "installLocation": "/Users/zhizhidemac/.claude/plugins/marketplaces/gitkraken",
+    "lastUpdated": "2026-07-09T01:15:11Z"
   }
 }

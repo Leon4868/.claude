@@ -1,0 +1,495 @@
+{
+  "node": "N1",
+  "nodeLabel": "初始化",
+  "status": "idle",
+  "feature": "1.translate-model-caller-config",
+  "featureIndex": 1,
+  "featureTotal": 2,
+  "task": "T-001: nacos 配置读取",
+  "taskIndex": 1,
+  "taskTotal": 4,
+  "message": "重构验证完成，恢复空闲",
+  "updatedAt": "2026-07-09T02:02:30.827Z",
+  "history": [
+    {
+      "node": "N7",
+      "status": "running",
+      "feature": "2.study-record-data",
+      "task": "T-006: 联调测试",
+      "message": "feature 完成，准备进入下一 feature",
+      "at": "2026-07-02T09:12:51.813Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-006: 联调测试",
+      "message": "分析依赖与执行计划",
+      "at": "2026-07-02T09:13:20.690Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-007: 联调测试",
+      "message": "开发中",
+      "at": "2026-07-02T09:13:34.404Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-007: 联调测试",
+      "message": "AI 自审中",
+      "at": "2026-07-02T09:22:08.127Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-007: 联调测试",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T09:22:30.545Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-007: 联调测试",
+      "message": "QA 评估中",
+      "at": "2026-07-02T09:23:26.766Z"
+    },
+    {
+      "node": "N7",
+      "status": "running",
+      "feature": "3.study-record-pages",
+      "task": "T-007: 联调测试",
+      "message": "feature 完成，准备进入下一 feature",
+      "at": "2026-07-02T09:23:37.400Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-007: 联调测试",
+      "message": "分析依赖与执行计划",
+      "at": "2026-07-02T09:23:49.479Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "开发中",
+      "at": "2026-07-02T09:23:58.133Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "AI 自审中",
+      "at": "2026-07-02T09:26:02.393Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T09:26:31.975Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "QA 评估中",
+      "at": "2026-07-02T09:26:55.111Z"
+    },
+    {
+      "node": "N7",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "全部 feature 完成，准备进入 N8",
+      "at": "2026-07-02T09:27:02.882Z"
+    },
+    {
+      "node": "N8",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "调用 leon-doc-syncer 同步文档",
+      "at": "2026-07-02T09:27:15.725Z"
+    },
+    {
+      "node": "N8",
+      "status": "done",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "全部完成",
+      "at": "2026-07-02T09:29:59.124Z"
+    },
+    {
+      "node": "N1",
+      "status": "running",
+      "feature": "4.study-dashboard",
+      "task": "T-006: 联调测试",
+      "message": "解析 specs 与路径映射",
+      "at": "2026-07-02T14:26:42.108Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-006: 联调测试",
+      "message": "分析依赖与执行计划",
+      "at": "2026-07-02T14:27:01.627Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-001: 复制弹窗翻译开关与字段骨架",
+      "message": "开发中",
+      "at": "2026-07-02T14:27:15.148Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-001: 复制弹窗翻译开关与字段骨架",
+      "message": "AI 自审 / Codex Review 中",
+      "at": "2026-07-02T14:35:52.826Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-001: 复制弹窗翻译开关与字段骨架",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:36:45.002Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-001: 复制弹窗翻译开关与字段骨架",
+      "message": "QA 评估中 / 已跳过",
+      "at": "2026-07-02T14:37:11.512Z"
+    },
+    {
+      "node": "N7",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-001: 复制弹窗翻译开关与字段骨架",
+      "message": "上下文未达阈值，保留路径映射，继续下一个 task",
+      "at": "2026-07-02T14:37:26.145Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-002: 目标语言下拉",
+      "message": "开发中",
+      "at": "2026-07-02T14:37:35.558Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-002: 目标语言下拉",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:38:40.592Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-002: 目标语言下拉",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:38:53.594Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-002: 目标语言下拉",
+      "message": "QA 评估中 / 已跳过",
+      "at": "2026-07-02T14:39:12.334Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-003: 翻译模型下拉",
+      "message": "开发中",
+      "at": "2026-07-02T14:39:25.804Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-003: 翻译模型下拉",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:40:59.195Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-003: 翻译模型下拉",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:41:15.102Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-003: 翻译模型下拉",
+      "message": "QA 评估中 / 已跳过",
+      "at": "2026-07-02T14:42:00.119Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-004: 识别模型下拉 + 条件 Prompt",
+      "message": "开发中",
+      "at": "2026-07-02T14:42:14.027Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-004: 识别模型下拉 + 条件 Prompt",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:44:23.886Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-004: 识别模型下拉 + 条件 Prompt",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:44:41.246Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-004: 识别模型下拉 + 条件 Prompt",
+      "message": "QA 评估中",
+      "at": "2026-07-02T14:45:01.436Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-005: 表单校验规则",
+      "message": "开发中",
+      "at": "2026-07-02T14:48:57.191Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-005: 表单校验规则",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:49:31.326Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-005: 表单校验规则",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:49:40.728Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-005: 表单校验规则",
+      "message": "QA 评估中 / 已跳过",
+      "at": "2026-07-02T14:49:54.751Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-006: API 封装",
+      "message": "开发中",
+      "at": "2026-07-02T14:50:07.532Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-006: API 封装",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:50:57.403Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-006: API 封装",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:51:07.385Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-006: API 封装",
+      "message": "QA 评估中 / 已跳过",
+      "at": "2026-07-02T14:51:20.703Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-007: 提交联动",
+      "message": "开发中",
+      "at": "2026-07-02T14:51:33.596Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-007: 提交联动",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:52:27.766Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-007: 提交联动",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:52:43.590Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-007: 提交联动",
+      "message": "QA 评估中（必须触发：API接口变更）",
+      "at": "2026-07-02T14:52:56.512Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "开发中",
+      "at": "2026-07-02T14:55:07.921Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "AI 自审中",
+      "at": "2026-07-02T14:55:45.549Z"
+    },
+    {
+      "node": "N5",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "标记 tasks.md 完成",
+      "at": "2026-07-02T14:56:03.493Z"
+    },
+    {
+      "node": "N6",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "QA 评估中（必须触发：feature 全部完成）",
+      "at": "2026-07-02T14:56:45.256Z"
+    },
+    {
+      "node": "N7",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "feature 完成，准备进入 N8",
+      "at": "2026-07-02T15:00:22.829Z"
+    },
+    {
+      "node": "N8",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "调用 leon-doc-syncer 同步文档",
+      "at": "2026-07-02T15:00:41.038Z"
+    },
+    {
+      "node": "N8",
+      "status": "done",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "全部完成",
+      "at": "2026-07-02T15:01:50.369Z"
+    },
+    {
+      "node": "N1",
+      "status": "running",
+      "feature": "script-translate-copy",
+      "task": "T-008: 联调测试",
+      "message": "解析 specs 与路径映射",
+      "at": "2026-07-02T15:42:29.131Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-008: 联调测试",
+      "message": "分析依赖与执行计划",
+      "at": "2026-07-02T15:42:59.535Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "开发中",
+      "at": "2026-07-02T15:43:19.971Z"
+    },
+    {
+      "node": "N8",
+      "status": "running",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "调用 leon-doc-syncer 同步文档",
+      "at": "2026-07-02T16:09:53.966Z"
+    },
+    {
+      "node": "N8",
+      "status": "done",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "全部完成",
+      "at": "2026-07-02T16:10:53.350Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "冒烟测试",
+      "at": "2026-07-09T02:02:30.741Z"
+    },
+    {
+      "node": "N1",
+      "status": "idle",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "重构验证完成，恢复空闲",
+      "at": "2026-07-09T02:02:30.827Z"
+    }
+  ]
+}

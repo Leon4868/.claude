@@ -7,22 +7,7 @@
 
 ## 项目定位
 
-读取 requirements.md、design.md、tasks.md 后，必须先判断每个 task 涉及的具体代码位置：
-
-- 前端 task 默认在 `FRONTEND_ROOT` 下定位到具体项目：
-  - 管理后台/运营配置/任务管理/AI 配置等优先检查 `ai-admin-ui`
-  - 决策系统/决策看板/策略决策等优先检查 `ai-decision-system-ui`
-  - 坐席台/会话工作台/实时接待等优先检查 `ai-seat-console`
-  - 若 specs 或代码命名无法判断，先用 `rg` 搜索路由、页面、接口名、文案，再决定项目
-- 后端 task 默认在 `{BACKEND_ROOT}/ai` 下定位具体 Maven 模块：
-  - 后台管理接口优先 `ai-admin`
-  - 开放接口优先 `ai-open-api`
-  - 服务端基础能力优先 `ai-server`
-  - 数据访问/SQLMap 优先 `ai-dataaccess`
-  - 领域模型/公共 DTO 优先 `ai-domain`、`ai-common`
-  - 中间件能力按需定位 `ai-cache`、`rocketmq`、`kafka`、`nacos`
-
-执行计划里每个 task 必须标注目标项目/模块，避免跨项目误改。
+按架构画像 `~/.claude/commands/leon-ai-nodes/project-profile.md` 中的「业务域 → 项目/模块定位启发」，为每个 task 判定具体代码位置。执行计划里每个 task 必须标注目标项目/模块，避免跨项目误改。
 
 若定位结果与 requirements.md / design.md 中的「目标代码位置」冲突，必须先用代码搜索核验；仍无法判断时暂停确认。
 
@@ -31,13 +16,9 @@
 读取 tasks.md 后，统计未完成任务数（`[ ]` 的行）：
 
 - **≤8 个** → 正常执行
-- **>8 个** → 不得机械按“前 8 个 / 剩余任务”拆分。先进入拆分评估：
-  1. 按「功能闭环 + 依赖最少」重新分组，每组目标 4-8 个任务。
-  2. 只有当分组边界清晰、无依赖环、requirements/design 能同步裁剪时，才自动拆分。
-  3. 新 feature 编号取当前 specs 最大整数编号 + 1，禁止使用 `{N+0.5}` 这类非标准编号。
-  4. 同步更新 `PLAN.md`：新增 feature 行、依赖列、状态、推荐执行顺序。
-  5. 同步裁剪/复制 requirements.md、design.md、tasks.md，确保每个目录只保留属于该 feature 的内容。
-  6. 若无法可靠拆分，暂停并要求用户先回到 `/leon:prd` 调整 specs。
+- **>8 个** → 按 `/leon:prd` Step 5.5 的切分标准（功能闭环 + 依赖最少，每组 4-8 个任务）重新分组拆分：
+  - 只有当分组边界清晰、无依赖环、requirements/design 能同步裁剪时，才自动拆分；新 feature 编号取当前 specs 最大整数编号 + 1，同步更新 PLAN.md（新增行、依赖列、状态、执行顺序）并裁剪三份 specs 文件
+  - 若无法可靠拆分，暂停并要求用户先回到 `/leon:prd` 调整 specs
 
 ## 执行计划
 
@@ -50,7 +31,7 @@
 | 涉及共享状态定义（schema、API） | 天然隔离 |
 | 需要共享上下文连续推理 | 可用清晰输入/输出交接 |
 
-并行时用 Agent 工具派发**角色化 subagent**（定义在 `~/.claude/agents/`），按工种选择 `subagent_type`：
+并行时用 Agent 工具派发**角色化 subagent**（定义在 `~/.claude/agents/leon/`），按工种选择 `subagent_type`：
 
 | 工种 | subagent_type | 何时派发 |
 | ---- | ------------- | -------- |
@@ -61,13 +42,7 @@
 
 如果当前环境没有 Agent 工具，或任务边界无法清晰隔离，则退化为主流程串行执行。
 
-派发时在 prompt 里务必传齐：**specs 路径、本次 task 编号与描述、代码项目路径**（subagent 是冷启动，要靠这些自行加载上下文）。每个 subagent 内部会加载同名 `leon-*` skill 执行，并在最终消息回报「文件清单 + 验证结果 + 待配合事项」。
-
-派发到前端/后端 subagent 时，还必须传入本 task 已定位的具体项目/模块，例如：
-
-- 前端：`{FRONTEND_ROOT}/ai-admin-ui`
-- 后端：`{BACKEND_ROOT}/ai/ai-admin`
-- 数据访问：`{BACKEND_ROOT}/ai/ai-dataaccess`
+派发时在 prompt 里务必传齐：**specs 路径、本次 task 编号与描述、代码项目路径、本 task 已定位的具体项目/模块**（如 `{FRONTEND_ROOT}/ai-admin-ui`、`{BACKEND_ROOT}/ai/ai-dataaccess`；subagent 是冷启动，要靠这些自行加载上下文）。每个 subagent 内部会加载同名 `leon-*` skill 执行，并在最终消息回报「文件清单 + 验证结果 + 待配合事项」。
 
 所有任务都有依赖时退化为全串行（此时不派 subagent，在主流程 inline 调用 skill）。
 

@@ -11,16 +11,7 @@
 
 ## 代码上下文
 
-生成 specs 时，如需求涉及现有代码，默认按以下真实项目结构做架构判断与任务切分：
-
-- 前端代码根目录：`FRONTEND_ROOT`
-  - `ai-admin-ui`：Vue 2.7、Vue CLI/Webpack、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
-  - `ai-decision-system-ui`：Vue 2.7、Vue CLI/Webpack、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
-  - `ai-seat-console`：Vue 2.7、Vite 4、TypeScript、Element UI、Vuex、Vue Router、axios、qiankun/wujie，Yarn
-- 后端 Maven 根目录：`{BACKEND_ROOT}/ai`
-  - Maven 多模块 Java 8 工程
-  - 主要模块：`ai-admin`、`ai-open-api`、`ai-server`、`ai-dataaccess`、`ai-domain`、`ai-common`、`ai-cache`、`ai-task`、`ai-sms`、`ai-sms-core`、`ai-decision-system`、`nacos`、`rocketmq`、`kafka`
-  - 主要技术：Spring Boot 2.3.x、Spring Cloud 2.2.x、JFinal、iBatis/SQLMap、Nacos、RocketMQ、Kafka、Redis、MySQL、ClickHouse、MongoDB、Groovy、JUnit 4
+生成 specs 时，如需求涉及现有代码，默认按真实项目结构做架构判断与任务切分。前端多项目 / 后端 Maven 多模块的具体架构、技术栈与定位启发，统一见架构画像 `~/.claude/commands/leon-ai-nodes/project-profile.md`（进入 Step 3/4 前读取）。
 
 requirements/design/tasks 中凡涉及代码实现，必须写清楚目标前端项目或后端 Maven 模块；无法确定时在开放问题中要求确认，或在设计中说明需要先用代码搜索定位。禁止写死某台机器的绝对路径。
 
@@ -347,7 +338,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 - 每个 feature 的 specs 路径、涉及技术层、任务数与预估时间
 - **总 feature 数、总任务数、预估总时间**
 - 推荐执行顺序（来自 PLAN.md）
-- 提示用户：**请审查 specs 后，运行 `/leon:ai` 或 `/leon:autoai` 开始开发**
+- 提示用户：**请审查 specs 后，运行 `/leon:ai` 开始开发**
 
 ---
 
@@ -478,7 +469,7 @@ Step 7、8、9 对切分表中的**每个 feature 各执行一遍**，写入各�
 删除: 1 个功能需求, 1 个任务
 未受影响: 3 个已完成任务保持不动
 
-请产品审查变更后，运行 /leon:autoai 继续开发（会跳过已完成任务）
+请产品审查变更后，运行 /leon:ai 继续开发（会跳过已完成任务）
 ```
 
 跨多个 feature 变更：
@@ -492,7 +483,7 @@ PLAN.md: 已更新 3 对 2 的依赖
 
 未受影响: 共 3 个已完成任务保持不动
 
-请产品审查变更后，运行 /leon:autoai 继续开发（会跳过已完成任务）
+请产品审查变更后，运行 /leon:ai 继续开发（会跳过已完成任务）
 ```
 
 ---
