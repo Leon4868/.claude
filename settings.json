@@ -56,7 +56,7 @@
       }
     ]
   },
-  "effortLevel": "high",
+  "effortLevel": "medium",
   "theme": "dark",
   "mcpServers": {
     "playwright": {
@@ -93,5 +93,5 @@
       }
     }
   },
-  "model": "claude-fable-5[1m]"
+  "model": "opus"
 }
