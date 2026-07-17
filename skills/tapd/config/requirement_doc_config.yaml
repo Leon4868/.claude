@@ -1,0 +1,19 @@
+requirement_doc:
+  # 需求文档根目录（可通过环境变量 TAPD_REQUIREMENTS_DIR 覆盖）
+  # 默认为用户主目录下的 tapd-requirements
+  root_dir: "${TAPD_REQUIREMENTS_DIR:~/tapd-requirements}"
+
+  # 目录命名格式
+  dir_format: "{story_id}_{story_name_short}_{date}"
+  # 示例：1135238004001009034_智能任务详情查询_20260315（使用 TAPD 版本时间）
+
+  # 需求名称最大长度（用于目录名）
+  max_name_length: 20
+
+  # 文档模板
+  templates:
+    requirement: "requirement.md"              # 需求原文
+    development: "development.md"              # 开发信息（分支、涉及项目）
+    implementation_plan: "implementationPlan.md"  # 实现计划
+    release: "release.md"                      # 发版文档
+    claude: "claude.md"                        # Claude Code 项目上下文

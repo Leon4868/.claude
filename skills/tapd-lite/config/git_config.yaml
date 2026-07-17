@@ -1,0 +1,18 @@
+git:
+  # Git 用户名缩写（用于分支名前缀）
+  username_abbr: "${GIT_USERNAME_ABBR:lwk}"
+
+  # 分支命名规范
+  branch_format: "{username_abbr}/feature/{short_id}_{story_name_short}"
+
+  # 故事名称最大长度（超过则简化）
+  max_story_name_length: 21
+
+  # 基础分支配置
+  base_branch:
+    # 基础分支名称模式（正则表达式）
+    pattern: "^release_20\\d{6}$"
+    # 后备分支（当找不到匹配的分支时）
+    fallback: "develop"
+    # 排序规则：name（按分支名排序）, commit_time（按最后提交时间）, both（组合判断）
+    sort_by: "both"

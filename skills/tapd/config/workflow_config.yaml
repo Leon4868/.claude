@@ -1,0 +1,4 @@
+workflow:
+  auto_update_status: true
+  auto_create_branch: true
+  auto_create_requirement_doc: true

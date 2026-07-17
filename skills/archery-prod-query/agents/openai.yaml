@@ -1,0 +1,4 @@
+interface:
+  display_name: "Archery Prod Query"
+  short_description: "Query prod tables safely through Archery"
+  default_prompt: "Use $archery-prod-query to inspect a production table through Archery, check permissions, and pull only the read-only metrics needed."

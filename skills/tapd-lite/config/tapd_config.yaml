@@ -1,0 +1,19 @@
+tapd:
+  base_url: "https://api.tapd.cn"
+  workspace_id: "35238004"
+  token_env: "TAPD_TOKEN"
+
+  status_map:
+    status_1: "需求中"
+    planning: "需求完成"
+    audited: "已评审"
+    developing: "开发中"
+    resolved: "完成开发"
+    status_2: "已测试"
+    status_3: "已上线"
+    rejected: "已挂起"
+    status_4: "测试通过"
+    status_5: "可上线"
+    status_6: "测试中"
+    workflow_suspended: "流程挂起"
+    workflow_end: "流程终止"

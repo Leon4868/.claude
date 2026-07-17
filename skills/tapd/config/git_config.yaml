@@ -1,0 +1,30 @@
+git:
+  # Git 用户配置（从环境变量或 git config 读取）
+  # 如果未设置，将自动从 git config user.name 获取
+  username: "${GIT_USERNAME}"  # 可选：设置环境变量 GIT_USERNAME
+  username_abbr: "${GIT_USERNAME_ABBR}"  # 可选：设置环境变量 GIT_USERNAME_ABBR（用于分支名）
+
+  # 代码根目录（通过环境变量 CODE_ROOT_DIR 设置）
+  # 用于在需求文档中自动生成代码仓库路径
+  # 设置方式：
+  #   Windows: setx CODE_ROOT_DIR "D:\Code"
+  #   Linux/Mac: export CODE_ROOT_DIR="/home/user/code"
+  code_root_dir: "${CODE_ROOT_DIR}"
+
+  # 分支命名规范
+  branch_format: "{username_abbr}/feature_{story_name}_{story_id}_{date}"
+  # 示例：zhangsan/feature_智能任务详情查询_1135238004001009034_20260315（使用 TAPD 版本时间）
+
+  # 基础分支配置：默认自动查找最新 release 分支
+  base_branch:
+    pattern: "^release_20\\d{6}$"
+    fallback: "develop"
+    sort_by: "both"
+
+  # 提交信息格式
+  commit_format: "[TAPD-{story_id}] {message}"
+
+  gitlab:
+    url: "${GITLAB_URL}"
+    token_env: "GITLAB_TOKEN"
+    project_id: "${GITLAB_PROJECT_ID}"

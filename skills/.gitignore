@@ -1,0 +1,38 @@
+# 排除官方 skills
+artifacts-builder/
+brainstorming/
+brand-guidelines/
+content-research-writer/
+dispatching-parallel-agents/
+document-skills/
+domain-name-brainstormer/
+executing-plans/
+file-organizer/
+finishing-a-development-branch/
+frontend-design/
+raffle-winner-picker/
+receiving-code-review/
+skill-creator/
+subagent-driven-development/
+systematic-debugging/
+test-driven-development/
+using-git-worktrees/
+using-superpowers/
+verification-before-completion/
+webapp-testing/
+writing-plans/
+writing-skills/
+commit/
+
+# 排除测试文件夹
+my-custom-skills/
+temp-skills/
+skills/
+
+# 排除压缩包
+*.zip
+
+# 排除其他临时文件
+requirements-clarity/
+/.idea/**
+/.claude/settings.local.json
