@@ -1,0 +1,9 @@
+{
+  "id": "5",
+  "subject": "实现后端代发证书链路",
+  "description": "独立发证钱包（私钥走环境变量，永不打印）+ 学完最后一节异步触发 + 定时扫描重试失败项。发证前读链 certificateOf 做幂等，合约的 CertificateAlreadyMinted 兜底。默认关闭，开关由 CERTIFICATE_ISSUANCE 控制。",
+  "activeForm": "实现后端代发证书链路",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

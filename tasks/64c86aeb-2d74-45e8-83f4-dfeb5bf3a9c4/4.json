@@ -1,0 +1,9 @@
+{
+  "id": "4",
+  "subject": "编写 CRE workflow 并本地 simulate",
+  "description": "workflow 已写完并通过类型校验（已用探针确认 tsc 真实解析 @chainlink/cre-sdk 类型）。cre workflow simulate 未跑：CLI 需要 curl|bash 安装二进制，留给用户执行。",
+  "activeForm": "编写 CRE workflow",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

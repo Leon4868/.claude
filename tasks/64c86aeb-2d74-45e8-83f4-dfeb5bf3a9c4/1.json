@@ -1,0 +1,9 @@
+{
+  "id": "1",
+  "subject": "改造 CompletionReceiver 实现 IReceiver",
+  "description": "把入口从自定义的 onCompletionReport 改成 CRE KeystoneForwarder 要求的 onReport(bytes metadata, bytes report)；加 ERC165 supportsInterface；解析 64 字节 metadata（workflowId/name/owner）并校验 workflow owner；report 里 abi.decode 出 completionId/student/courseId/metadataURI；保留 completionId 防重放与 forwarder 白名单。",
+  "activeForm": "改造 CompletionReceiver 合约",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

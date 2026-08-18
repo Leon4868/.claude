@@ -1,0 +1,9 @@
+{
+  "id": "6",
+  "subject": "补发证链路测试与授权脚本",
+  "description": "用假链客户端测试：完成最后一节触发发证、已发证跳过、失败后下次重试、并发 kick 去重。另写合约脚本把 MINTER_ROLE 授予独立发证钱包。",
+  "activeForm": "补发证测试与授权脚本",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

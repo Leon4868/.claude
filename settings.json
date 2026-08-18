@@ -1,18 +1,5 @@
 {
   "effortLevel": "high",
-  "env": {
-    "ANTHROPIC_API_KEY": "",
-    "ANTHROPIC_BASE_URL": "https://newapi.365do.work/",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "k3",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL_NAME": "k3",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "k3",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME": "k3",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "k3",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "k3",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "k3",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "k3",
-    "ANTHROPIC_MODEL": "k3"
-  },
   "mcpServers": {
     "figma": {
       "args": [
@@ -25,5 +12,7 @@
       "command": "npx"
     }
   },
-  "theme": "dark"
+  "theme": "dark",
+  "enableWorkflows": true,
+  "model": "opus"
 }

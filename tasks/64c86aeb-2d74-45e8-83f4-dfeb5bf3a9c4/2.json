@@ -1,0 +1,9 @@
+{
+  "id": "2",
+  "subject": "补齐合约测试并跑通",
+  "description": "更新 contracts/test/YDUniversity.ts 里 CompletionReceiver 相关用例：onReport 正常铸造、非 forwarder 调用 revert、错误 workflow owner revert、重复 completionId 防重放、metadata 长度边界（forwarder 给 64 字节）、supportsInterface 返回 true。",
+  "activeForm": "补齐合约测试",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}

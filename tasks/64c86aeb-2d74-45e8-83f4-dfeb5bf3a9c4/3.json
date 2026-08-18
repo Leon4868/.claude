@@ -1,0 +1,9 @@
+{
+  "id": "3",
+  "subject": "后端暴露待发证完成记录接口",
+  "description": "新增供 CRE workflow 拉取的接口，返回进度 100% 且绑定了钱包地址的完成记录：completionId、student 钱包、chainCourseId、metadataURI。需可被公网 DON 访问，注意不要泄露用户隐私字段。",
+  "activeForm": "实现后端完成记录接口",
+  "status": "completed",
+  "blocks": [],
+  "blockedBy": []
+}
