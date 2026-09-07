@@ -1,6 +1,6 @@
 ---
 name: log-extract-and-replay
-description: "从日志文件（如阿里云 SLS 导出的 JSON）中提取 params 字段数据，保存为 JSON 文件，统计数据量，并可组装为批量 HTTP 请求逐条执行、累加响应结果。适用于日志数据提取、API 请求重放、批量数据导入、日志分析等场景。当用户提到从日志提取数据、批量请求、API 重放、日志解析、批量 cURL、批量导入等关键词时触发。"
+description: "从日志提取 params 为 JSON，或按用户要求组装批量请求重放；重放须有明确授权。"
 ---
 
 # 日志数据提取与 API 重放

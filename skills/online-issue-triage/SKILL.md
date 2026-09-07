@@ -1,6 +1,6 @@
 ---
 name: online-issue-triage
-description: 94AI 线上问题排查方法论。覆盖三大场景: 1) 技术 trace 排查 (NPE/异常/慢调用) 2) 号码为什么没导入任务 3) 号码在智能任务为什么没流转。按场景串联 SLS 日志查询 (aliyun-sls-log-query)、本地代码定位 (D:\Code)、Archery 数据库查询 (archery-prod-query) 三个工具。当用户问"这个 trace 是什么报错"、"号码为什么没导入进去"、"号码在智能任务为什么没流转"、"运营反馈号码没收到短信"、"批量号码没成功"等线上问题时使用本技能。
+description: "排查 94AI 线上 trace 异常、号码未导入或智能任务未流转；串联日志、源码和数据库证据。"
 ---
 
 # 线上问题排查方法论

@@ -1,0 +1,222 @@
+[2026-08-21T09:46:10.318Z] [supervisor] ─── daemon start ─── version=2.1.238 pid=19990 origin=transient
+[2026-08-21T09:46:10.325Z] [supervisor] auth: scheduling proactive refresh in 28418s
+[2026-08-21T09:46:10.326Z] [supervisor] auth: scheduling proactive refresh in 28418s
+[2026-08-21T09:46:10.331Z] [supervisor] workers=0
+[2026-08-21T09:46:10.335Z] [bg] bg: control socket bound at /tmp/cc-daemon-501/35723c06/control.sock
+[2026-08-21T09:46:10.386Z] [bg] bg spare spawned host pid=20001
+[2026-08-21T09:46:10.540Z] [bg] bg claimed-spare 8ee53174 (spare)
+[2026-08-21T09:46:10.542Z] [bg] bg spawned f9809c19 (slash)
+[2026-08-21T09:46:10.544Z] [bg] bg spare spawned host pid=20007
+[2026-08-21T10:46:10.049Z] [bg] bg settled 8ee53174 (done)
+[2026-08-21T13:50:34.239Z] [bg] bg claimed-spare 8ee53174 (fleet)
+[2026-08-21T13:50:34.253Z] [bg] bg spare spawned host pid=45396
+[2026-08-21T13:50:34.262Z] [bg] bg claimed-spare 3c40ba71 (spare)
+[2026-08-21T13:50:34.274Z] [bg] bg spare spawned host pid=45399
+[2026-08-21T14:51:03.512Z] [bg] bg settled 3c40ba71 (done)
+[2026-08-21T17:44:17.027Z] [supervisor] auth: proactive refresh starting
+[2026-08-21T17:44:19.668Z] [supervisor] auth: scheduling proactive refresh in 28560s
+[2026-08-21T17:44:19.668Z] [supervisor] auth: proactive refresh succeeded
+[2026-08-21T22:40:55.346Z] [supervisor] binary at /Users/zhizhidemac/.local/bin/claude changed (/Users/zhizhidemac/.local/share/claude/versions/2.1.238 → /Users/zhizhidemac/.local/share/claude/versions/2.1.239) — self-restarting for upgrade
+[2026-08-21T22:40:55.355Z] [supervisor] shutting down (cause=upgrade, uptime=46485s, leases=1, live_workers=2)
+[2026-08-21T22:41:00.783Z] [supervisor] ─── daemon start ─── version=2.1.239 pid=76066 origin=transient
+[2026-08-21T22:41:00.790Z] [supervisor] auth: scheduling proactive refresh in 10759s
+[2026-08-21T22:41:00.790Z] [supervisor] auth: scheduling proactive refresh in 10759s
+[2026-08-21T22:41:00.795Z] [supervisor] workers=0
+[2026-08-21T22:41:00.799Z] [bg] bg: control socket bound at /tmp/cc-daemon-501/35723c06/control.sock
+[2026-08-21T22:41:00.804Z] [bg] bg adopt: adopted=2 respawned=0 dead=0
+[2026-08-21T22:41:00.809Z] [bg] bg spare spawned host pid=76080
+[2026-08-21T22:57:59.337Z] [bg] bg: post-takeover prewarm burst — respawned 0/2 stale workers, 2 refused in 0s
+[2026-08-21T23:19:33.724Z] [bg] bg settled f9809c19 (done)
+[2026-08-21T23:37:06.473Z] [bg] bg claimed-spare 285a55b0 (spare)
+[2026-08-21T23:37:06.476Z] [bg] bg spare spawned host pid=76156
+[2026-08-22T01:43:55.109Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T01:43:56.189Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-22T01:43:56.189Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-22T01:59:48.036Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T01:59:50.938Z] [supervisor] auth: scheduling proactive refresh in 28559s
+[2026-08-22T01:59:50.938Z] [supervisor] auth: proactive refresh succeeded
+[2026-08-22T07:49:56.254Z] [bg] bg settled 285a55b0 (done)
+[2026-08-22T09:55:49.929Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T09:55:50.500Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-22T09:55:50.500Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-22T09:56:50.501Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T09:56:51.495Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-22T09:56:51.496Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-22T09:57:51.497Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T09:57:52.059Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-22T09:57:52.059Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-22T09:58:52.059Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T09:58:52.624Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-22T09:58:52.624Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-22T09:59:52.629Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T09:59:53.290Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-22T09:59:53.295Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-22T09:59:53.296Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-22T11:38:25.277Z] [supervisor] auth: scheduling proactive refresh in 28533s
+[2026-08-22T11:38:25.277Z] [supervisor] auth: token found via keychain re-check
+[2026-08-22T19:39:43.738Z] [supervisor] auth: proactive refresh starting
+[2026-08-22T19:39:44.593Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-22T19:39:44.598Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-22T19:39:44.598Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-22T20:46:08.904Z] [supervisor] auth: scheduling proactive refresh in 27508s
+[2026-08-22T20:46:08.904Z] [supervisor] auth: token found via keychain re-check
+[2026-08-22T23:51:08.797Z] [supervisor] binary at /Users/zhizhidemac/.local/bin/claude changed (/Users/zhizhidemac/.local/share/claude/versions/2.1.239 → /Users/zhizhidemac/.local/share/claude/versions/2.1.240) — self-restarting for upgrade
+[2026-08-22T23:51:08.805Z] [supervisor] shutting down (cause=upgrade, uptime=90608s, leases=1, live_workers=1)
+[2026-08-22T23:57:34.723Z] [supervisor] upgrade self-respawn spawned but never became reachable within 45s — bg workers may be orphan-reaped ~60s after this process exits unless a client restarts the daemon (run `claude agents`)
+[2026-08-22T23:57:37.691Z] [supervisor] ─── daemon start ─── version=2.1.240 pid=82206 origin=transient
+[2026-08-22T23:57:37.701Z] [supervisor] auth: scheduling proactive refresh in 16019s
+[2026-08-22T23:57:37.702Z] [supervisor] auth: scheduling proactive refresh in 16019s
+[2026-08-22T23:57:37.707Z] [supervisor] workers=0
+[2026-08-22T23:57:37.711Z] [bg] bg: control socket bound at /tmp/cc-daemon-501/35723c06/control.sock
+[2026-08-22T23:57:37.717Z] [bg] bg adopt: adopted=1 respawned=0 dead=0
+[2026-08-22T23:57:37.724Z] [bg] bg spare spawned host pid=82222
+[2026-08-23T00:03:32.786Z] [bg] bg: post-takeover prewarm burst — respawned 0/1 stale workers, 1 refused in 0s
+[2026-08-23T04:41:12.649Z] [supervisor] auth: proactive refresh starting
+[2026-08-23T04:41:15.319Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-23T04:41:15.321Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-23T04:41:15.321Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-23T05:25:28.014Z] [supervisor] auth: scheduling proactive refresh in 28556s
+[2026-08-23T05:25:28.014Z] [supervisor] auth: token refreshed via keychain re-check retry
+[2026-08-23T13:33:24.954Z] [supervisor] auth: proactive refresh starting
+[2026-08-23T13:33:26.285Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-23T13:33:26.286Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-23T13:33:26.286Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-23T14:50:05.134Z] [supervisor] auth: scheduling proactive refresh in 28559s
+[2026-08-23T14:50:05.134Z] [supervisor] auth: token refreshed via keychain re-check retry
+[2026-08-23T22:53:00.792Z] [supervisor] auth: proactive refresh starting
+[2026-08-23T22:53:01.657Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-23T22:53:01.659Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-23T22:53:01.659Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-24T01:56:17.516Z] [supervisor] auth: scheduling proactive refresh in 28543s
+[2026-08-24T01:56:17.517Z] [supervisor] auth: token found via keychain re-check
+[2026-08-24T09:52:00.337Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T09:52:00.950Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-24T09:52:00.951Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-24T09:53:00.952Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T09:53:01.535Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-24T09:53:01.535Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-24T09:54:01.536Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T09:54:03.111Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-24T09:54:03.111Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-24T09:55:03.112Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T09:55:03.706Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-24T09:55:03.707Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-24T09:56:03.708Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T09:56:04.304Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-24T09:56:04.309Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-24T09:56:04.309Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-24T11:17:51.763Z] [supervisor] auth: scheduling proactive refresh in 28548s
+[2026-08-24T11:17:51.765Z] [supervisor] auth: token found via keychain re-check
+[2026-08-24T19:22:59.401Z] [supervisor] auth: proactive refresh starting
+[2026-08-24T19:23:00.268Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-24T19:23:00.273Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-24T19:23:00.273Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-24T19:55:41.914Z] [supervisor] auth: scheduling proactive refresh in 27609s
+[2026-08-24T19:55:41.915Z] [supervisor] auth: token found via keychain re-check
+[2026-08-25T03:35:51.665Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T03:35:52.272Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-25T03:35:52.272Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-25T03:36:52.272Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T03:36:52.825Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-25T03:36:52.825Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-25T03:37:52.826Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T03:37:53.643Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-25T03:37:53.643Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-25T03:38:53.644Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T03:38:54.212Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-25T03:38:54.212Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-25T03:39:54.318Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T03:39:54.867Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-25T03:39:54.874Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-25T03:39:54.874Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-25T04:37:54.748Z] [supervisor] auth: scheduling proactive refresh in 28538s
+[2026-08-25T04:37:54.750Z] [supervisor] auth: token found via keychain re-check
+[2026-08-25T05:15:45.077Z] [bg] bg claimed-spare f9809c19 (fleet)
+[2026-08-25T05:15:45.102Z] [bg] bg spare spawned host pid=74851
+[2026-08-25T05:20:42.934Z] [supervisor] binary at /Users/zhizhidemac/.local/bin/claude changed (/Users/zhizhidemac/.local/share/claude/versions/2.1.240 → /Users/zhizhidemac/.local/share/claude/versions/2.1.245) — self-restarting for upgrade
+[2026-08-25T05:20:42.963Z] [supervisor] shutting down (cause=upgrade, uptime=192185s, leases=2, live_workers=2)
+[2026-08-25T05:20:49.492Z] [supervisor] ─── daemon start ─── version=2.1.245 pid=76128 origin=transient
+[2026-08-25T05:20:49.505Z] [supervisor] auth: scheduling proactive refresh in 25963s
+[2026-08-25T05:20:49.506Z] [supervisor] auth: scheduling proactive refresh in 25963s
+[2026-08-25T05:20:49.514Z] [supervisor] workers=0
+[2026-08-25T05:20:49.518Z] [bg] bg: control socket bound at /tmp/cc-daemon-501/35723c06/control.sock
+[2026-08-25T05:20:49.525Z] [bg] bg adopt: adopted=2 respawned=0 dead=0
+[2026-08-25T05:20:49.533Z] [bg] bg spare spawned host pid=76189
+[2026-08-25T05:20:49.698Z] [supervisor] ─── daemon start ─── version=2.1.245 pid=76130 origin=transient
+[2026-08-25T05:20:49.703Z] [supervisor] another daemon is already running (pid=76128, version=2.1.245, origin=transient; an on-demand daemon never displaces a running one). Run `claude daemon stop` to stop it, then retry.
+[2026-08-25T05:21:04.550Z] [bg] bg: post-takeover prewarm burst — respawned 0/2 stale workers, 2 refused in 0s
+[2026-08-25T12:37:05.794Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T12:37:06.564Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-25T12:37:06.564Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-25T12:52:44.047Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T12:52:44.134Z] [supervisor] auth: scheduling proactive refresh in 27624s
+[2026-08-25T12:52:44.134Z] [supervisor] auth: proactive refresh succeeded
+[2026-08-25T20:48:32.095Z] [supervisor] auth: proactive refresh starting
+[2026-08-25T20:48:33.368Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-25T20:48:33.379Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-25T20:48:33.379Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-25T21:27:45.991Z] [supervisor] auth: scheduling proactive refresh in 28560s
+[2026-08-25T21:27:45.991Z] [supervisor] auth: token refreshed via keychain re-check retry
+[2026-08-25T23:47:48.441Z] [supervisor] binary at /Users/zhizhidemac/.local/bin/claude changed (/Users/zhizhidemac/.local/share/claude/versions/2.1.245 → /Users/zhizhidemac/.local/share/claude/versions/2.1.246) — self-restarting for upgrade
+[2026-08-25T23:47:48.585Z] [supervisor] shutting down (cause=upgrade, uptime=66419s, leases=2, live_workers=2)
+[2026-08-25T23:47:52.669Z] [supervisor] ─── daemon start ─── version=2.1.246 pid=88220 origin=transient
+[2026-08-25T23:47:52.677Z] [supervisor] auth: scheduling proactive refresh in 20153s
+[2026-08-25T23:47:52.678Z] [supervisor] auth: scheduling proactive refresh in 20153s
+[2026-08-25T23:47:52.685Z] [supervisor] workers=0
+[2026-08-25T23:47:52.687Z] [bg] bg: control socket bound at /tmp/cc-daemon-501/35723c06/control.sock
+[2026-08-25T23:47:52.694Z] [bg] bg adopt: adopted=2 respawned=0 dead=0
+[2026-08-25T23:47:52.696Z] [bg] bg orphan-spare reap: 1
+[2026-08-25T23:47:52.706Z] [bg] bg spare spawned host pid=88252
+[2026-08-25T23:47:53.000Z] [supervisor] ─── daemon start ─── version=2.1.246 pid=88226 origin=transient
+[2026-08-25T23:47:53.005Z] [supervisor] another daemon is already running (pid=88220, version=2.1.246, origin=transient; an on-demand daemon never displaces a running one). Run `claude daemon stop` to stop it, then retry.
+[2026-08-26T00:03:59.595Z] [bg] bg: post-takeover prewarm burst — respawned 0/2 stale workers, 2 refused in 0s
+[2026-08-26T05:23:44.942Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T05:23:45.561Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-26T05:23:45.561Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-26T05:24:45.563Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T05:24:46.074Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-26T05:24:46.074Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-26T05:25:46.076Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T05:25:46.750Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-26T05:25:46.750Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-26T05:26:46.750Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T05:26:47.489Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-26T05:26:47.489Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-26T05:27:47.491Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T05:27:48.001Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-26T05:27:48.032Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-26T05:27:48.034Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-26T05:30:49.566Z] [supervisor] auth: scheduling proactive refresh in 28559s
+[2026-08-26T05:30:49.567Z] [supervisor] auth: token refreshed via keychain re-check retry
+[2026-08-26T13:35:13.906Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T13:35:14.785Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-26T13:35:14.792Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-26T13:35:14.793Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-26T14:08:36.121Z] [supervisor] auth: scheduling proactive refresh in 28533s
+[2026-08-26T14:08:36.122Z] [supervisor] auth: token found via keychain re-check
+[2026-08-26T22:16:17.146Z] [supervisor] auth: proactive refresh starting
+[2026-08-26T22:16:18.011Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-26T22:16:18.015Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-26T22:16:18.016Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-26T23:42:28.969Z] [supervisor] auth: scheduling proactive refresh in 28559s
+[2026-08-26T23:42:28.969Z] [supervisor] auth: token refreshed via keychain re-check retry
+[2026-08-27T07:38:27.960Z] [supervisor] auth: proactive refresh starting
+[2026-08-27T07:38:28.754Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-27T07:38:28.755Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-27T07:39:28.755Z] [supervisor] auth: proactive refresh starting
+[2026-08-27T07:39:29.407Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-27T07:39:29.407Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-27T07:40:29.408Z] [supervisor] auth: proactive refresh starting
+[2026-08-27T07:40:29.939Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-27T07:40:29.939Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-27T07:41:29.940Z] [supervisor] auth: proactive refresh starting
+[2026-08-27T07:41:30.693Z] [supervisor] auth: proactive refresh failed, retrying in ~60s (token still valid)
+[2026-08-27T07:41:30.693Z] [supervisor] auth: scheduling proactive refresh in 60s
+[2026-08-27T07:42:30.694Z] [supervisor] auth: proactive refresh starting
+[2026-08-27T07:42:31.213Z] [supervisor] auth: proactive refresh failed, signalling re-auth required
+[2026-08-27T07:42:31.221Z] [supervisor] auth: headless daemon cannot complete OAuth — run `claude auth login` to refresh
+[2026-08-27T07:42:31.221Z] [supervisor] auth: no token found, will re-check keychain every 30s
+[2026-08-27T08:53:30.790Z] [supervisor] auth: scheduling proactive refresh in 28539s
+[2026-08-27T08:53:30.792Z] [supervisor] auth: token found via keychain re-check
+[2026-08-27T08:58:09.952Z] [bg] bg spare spawned host pid=57004
+[2026-08-27T09:04:39.034Z] [supervisor] shutting down (cause=signal, uptime=119806s, leases=2, live_workers=2)

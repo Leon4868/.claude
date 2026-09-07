@@ -1,6 +1,6 @@
 ---
 name: macos-calendar
-description: Create, list, and manage macOS Calendar events via AppleScript. Use when the user asks to add a reminder, schedule an event, create a calendar entry, set a deadline, or anything involving Apple Calendar on macOS. Triggers on requests like "remind me in 3 days", "add to my calendar", "schedule a meeting next Monday at 2pm", "create a recurring weekly event". macOS only.
+description: "Create, list, or edit Apple Calendar events on macOS when the user requests calendar scheduling."
 license: MIT
 compatibility: Requires macOS with Calendar.app. Uses osascript (AppleScript) and python3 for JSON parsing.
 metadata:

@@ -1,6 +1,6 @@
 ---
 name: leon-backend-engineer
-description: 后端工程师 Skill，执行服务端业务开发，自动适配后端框架与 RPC/API 形态（tRPC/REST/GraphQL）、认证方案与运行时（Node/Bun/Deno/Hono/Express/Nest 等）。当 task 涉及 API/procedure、认证配置、服务端业务逻辑、第三方服务集成时由 /leon:ai 自动调用。
+description: "实现服务端 API、认证或业务逻辑；按项目现有后端框架执行限定任务。"
 ---
 
 # leon-backend-engineer — 后端工程师

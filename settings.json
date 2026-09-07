@@ -1,5 +1,8 @@
 {
+  "model": "opus",
+  "enableWorkflows": true,
   "effortLevel": "high",
+  "theme": "dark",
   "mcpServers": {
     "figma": {
       "args": [
@@ -11,8 +14,5 @@
       ],
       "command": "npx"
     }
-  },
-  "theme": "dark",
-  "enableWorkflows": true,
-  "model": "opus"
+  }
 }

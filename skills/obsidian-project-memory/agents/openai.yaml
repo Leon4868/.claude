@@ -1,0 +1,8 @@
+interface:
+  display_name: "Obsidian Project Memory"
+  short_description: "Retrieve and maintain durable cross-project context"
+  default_prompt: "Use $obsidian-project-memory to retrieve relevant project context and update durable notes after the task."
+
+policy:
+  allow_implicit_invocation: true
+

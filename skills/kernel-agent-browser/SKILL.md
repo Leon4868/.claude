@@ -1,6 +1,6 @@
 ---
 name: kernel-agent-browser
-description: Best practices for using agent-browser with Kernel cloud browsers. Use when automating websites with agent-browser -p kernel, dealing with bot detection, iframes, login persistence, or needing to find Kernel browser session IDs and live view URLs.
+description: "Use agent-browser with Kernel cloud browser sessions; troubleshoot session setup, login persistence, or page interaction."
 ---
 
 # Agent-Browser with Kernel Cloud Browsers
