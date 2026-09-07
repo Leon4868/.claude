@@ -1,0 +1,17 @@
+{
+  "name": "leon-ai-workflow-adapter",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/run-portable-workflow.js",
+    "./providers": "./src/providers/provider-adapters.js",
+    "./codex-cli": "./src/providers/codex-cli-adapter.js",
+    "./original-fallback": "./src/providers/original-workflow-fallback.js",
+    "./catalog": "./src/runtime/provider-catalog.js"
+  },
+  "scripts": {
+    "build:claude": "node scripts/build-claude-native.mjs",
+    "check:gpt": "node scripts/check-gpt-adapter.mjs",
+    "test": "npm run build:claude && node test/claude-native-smoke.mjs && node test/runtime-adapter-smoke.mjs && node test/project-boundary-smoke.mjs"
+  }
+}
