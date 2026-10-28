@@ -1,144 +1,16 @@
 {
-  "node": "N1",
-  "nodeLabel": "初始化",
-  "status": "idle",
-  "feature": "1.translate-model-caller-config",
-  "featureIndex": 1,
-  "featureTotal": 2,
-  "task": "T-001: nacos 配置读取",
-  "taskIndex": 1,
-  "taskTotal": 4,
-  "message": "重构验证完成，恢复空闲",
-  "updatedAt": "2026-07-09T02:02:30.827Z",
+  "node": "N4",
+  "nodeLabel": "审查收尾",
+  "status": "running",
+  "feature": "4.creative-design-workspace-ui",
+  "featureIndex": 4,
+  "featureTotal": 6,
+  "task": "T-002: 路由迁移回归",
+  "taskIndex": 2,
+  "taskTotal": 8,
+  "message": "低风险，撤回验证 5 轮",
+  "updatedAt": "2026-09-09T14:48:30.132Z",
   "history": [
-    {
-      "node": "N7",
-      "status": "running",
-      "feature": "2.study-record-data",
-      "task": "T-006: 联调测试",
-      "message": "feature 完成，准备进入下一 feature",
-      "at": "2026-07-02T09:12:51.813Z"
-    },
-    {
-      "node": "N2",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-006: 联调测试",
-      "message": "分析依赖与执行计划",
-      "at": "2026-07-02T09:13:20.690Z"
-    },
-    {
-      "node": "N3",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-007: 联调测试",
-      "message": "开发中",
-      "at": "2026-07-02T09:13:34.404Z"
-    },
-    {
-      "node": "N4",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-007: 联调测试",
-      "message": "AI 自审中",
-      "at": "2026-07-02T09:22:08.127Z"
-    },
-    {
-      "node": "N5",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-007: 联调测试",
-      "message": "标记 tasks.md 完成",
-      "at": "2026-07-02T09:22:30.545Z"
-    },
-    {
-      "node": "N6",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-007: 联调测试",
-      "message": "QA 评估中",
-      "at": "2026-07-02T09:23:26.766Z"
-    },
-    {
-      "node": "N7",
-      "status": "running",
-      "feature": "3.study-record-pages",
-      "task": "T-007: 联调测试",
-      "message": "feature 完成，准备进入下一 feature",
-      "at": "2026-07-02T09:23:37.400Z"
-    },
-    {
-      "node": "N2",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-007: 联调测试",
-      "message": "分析依赖与执行计划",
-      "at": "2026-07-02T09:23:49.479Z"
-    },
-    {
-      "node": "N3",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "开发中",
-      "at": "2026-07-02T09:23:58.133Z"
-    },
-    {
-      "node": "N4",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "AI 自审中",
-      "at": "2026-07-02T09:26:02.393Z"
-    },
-    {
-      "node": "N5",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "标记 tasks.md 完成",
-      "at": "2026-07-02T09:26:31.975Z"
-    },
-    {
-      "node": "N6",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "QA 评估中",
-      "at": "2026-07-02T09:26:55.111Z"
-    },
-    {
-      "node": "N7",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "全部 feature 完成，准备进入 N8",
-      "at": "2026-07-02T09:27:02.882Z"
-    },
-    {
-      "node": "N8",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "调用 leon-doc-syncer 同步文档",
-      "at": "2026-07-02T09:27:15.725Z"
-    },
-    {
-      "node": "N8",
-      "status": "done",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "全部完成",
-      "at": "2026-07-02T09:29:59.124Z"
-    },
-    {
-      "node": "N1",
-      "status": "running",
-      "feature": "4.study-dashboard",
-      "task": "T-006: 联调测试",
-      "message": "解析 specs 与路径映射",
-      "at": "2026-07-02T14:26:42.108Z"
-    },
     {
       "node": "N2",
       "status": "running",
@@ -490,6 +362,134 @@
       "task": "T-001: nacos 配置读取",
       "message": "重构验证完成，恢复空闲",
       "at": "2026-07-09T02:02:30.827Z"
+    },
+    {
+      "node": "N1",
+      "status": "running",
+      "feature": "1.translate-model-caller-config",
+      "task": "T-001: nacos 配置读取",
+      "message": "初始化：解析 specs 与路径映射",
+      "at": "2026-09-09T06:35:07.548Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-001: nacos 配置读取",
+      "message": "进入 feature，制定执行计划",
+      "at": "2026-09-09T06:35:41.645Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-003: skills/sql_repository.py",
+      "message": "编写 SQLAlchemySkillRepository",
+      "at": "2026-09-09T06:36:49.787Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-004: SQLAlchemySkillRepository 行为测试",
+      "message": "两后端对等契约测试",
+      "at": "2026-09-09T07:15:09.373Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-005: prompts/sql_repository.py",
+      "message": "对称实现 PromptRepository",
+      "at": "2026-09-09T07:44:17.697Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-007: container 接线",
+      "message": "按 repository_backend 选择仓储实现",
+      "at": "2026-09-09T08:17:53.012Z"
+    },
+    {
+      "node": "N1",
+      "status": "running",
+      "feature": "1.registry-sql-skill-prompt",
+      "task": "T-007: container 接线",
+      "message": "初始化：解析 specs 与路径映射",
+      "at": "2026-09-09T13:04:29.845Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "3.creative-design-persistence",
+      "task": "T-007: container 接线",
+      "message": "进入 feature 3，建立执行计划",
+      "at": "2026-09-09T13:05:08.886Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "3.creative-design-persistence",
+      "task": "T-001: 契约 schema + TS 镜像 + examples",
+      "message": "T-001 审查通过并标记完成",
+      "at": "2026-09-09T13:18:29.405Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001: 契约 schema + TS 镜像 + examples",
+      "message": "进入 feature 4",
+      "at": "2026-09-09T14:24:33.167Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001: 引入 react-router",
+      "message": "引入路由",
+      "at": "2026-09-09T14:25:12.157Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001",
+      "message": "审查收尾",
+      "at": "2026-09-09T14:33:36.936Z"
+    },
+    {
+      "node": "N1",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001",
+      "message": "初始化：解析路径、校验 specs、断点恢复",
+      "at": "2026-09-09T14:42:17.929Z"
+    },
+    {
+      "node": "N2",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001",
+      "message": "进入 feature 4，读取 specs 与依赖",
+      "at": "2026-09-09T14:42:35.057Z"
+    },
+    {
+      "node": "N3",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-001: 路由基础（断点核对）",
+      "message": "核对既有实现，补标记",
+      "at": "2026-09-09T14:43:18.418Z"
+    },
+    {
+      "node": "N4",
+      "status": "running",
+      "feature": "4.creative-design-workspace-ui",
+      "task": "T-002: 路由迁移回归",
+      "message": "低风险，撤回验证 5 轮",
+      "at": "2026-09-09T14:48:30.132Z"
     }
   ]
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "leon_design"
+  short_description: "把课程核心方法用于真实项目的界面改版、图标、IP与作品表达"
+  default_prompt: "使用 $leon_design，结合这个项目的目标与现有设计，完成界面优化并说明关键决策。"

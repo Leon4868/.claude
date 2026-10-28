@@ -1,0 +1,5 @@
+interface:
+  display_name: "资源专项设计风格"
+  short_description: "沿用 94AI 资源专项的桌面管理界面风格"
+  brand_color: "#1177FF"
+  default_prompt: "使用 $admin_design 为这个管理页面设计或实现符合资源专项风格的界面。"

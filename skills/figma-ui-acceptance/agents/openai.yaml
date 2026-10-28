@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma UI 设计验收"
+  short_description: "用 Figma 和已登录页面自动走查 UI，交付截图、测量证据和差异报告"
+  default_prompt: "使用 $figma-ui-acceptance，根据我提供的 Figma 链接和已登录页面链接完成 UI 设计验收，并生成离线报告。"

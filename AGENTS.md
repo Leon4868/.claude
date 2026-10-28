@@ -87,21 +87,6 @@ cp <repo>/.env* ~/Documents/Code/.worktrees/<repo>/<分支名>/ 2>/dev/null   # 
 
 **收尾**：分支合并后 `git -C <repo> worktree remove <路径>`，别留着。定期 `git worktree prune` 清理失效记录。
 
-### 铁律：worktree 的改动绝不落到稳定分支
-
-worktree 里的改动**只提交到它自己的 feature 分支**（`xxl/feature/<需求名>`）。稳定分支（`release_*`）是只读基线，只当切分支的起点，不当落脚点。
-
-**禁止的四类动作**（未经我逐次明确指示，一律不做）：
-
-1. **不在稳定分支上建 worktree** —— `git worktree add <路径> release_20260716` 这种「把 worktree 绑到 release 分支」的写法禁止。永远用 `-b <新分支名> origin/<最新 release_*>`，让 worktree 的 HEAD 始终是新建的 feature 分支。
-2. **不把 commit 打到 `release_*` 上** —— 不在 worktree 里 `git switch release_*` 后提交，不 `git merge` 进本地 `release_*`，不 cherry-pick 过去。
-3. **不推到稳定分支** —— `git push origin HEAD:release_*`、`git push origin release_*` 一律禁止。只推自己的 feature 分支。
-4. **不把 feature 分支的 upstream 绑到稳定分支** —— `git push -u origin release_*`、`git branch -u origin/release_*` 禁止。upstream 只能是同名的 `origin/xxl/feature/<需求名>`。
-
-**合并进 release 由我决定，走 MR / 发版流程。** `merge-to-release`、`merge-to-test` 这类 skill 只在我**明确点名要跑**的时候才执行，绝不作为「开发完成」的自动收尾动作。
-
-**Why:** worktree 和主目录共用同一个 `.git`，在 worktree 里对 `release_*` 的任何提交、合并、推送都会立刻污染整个仓库的稳定线，而且当时主目录看不出异常，等发版才发现。基线必须保持和远端一致，否则下一个从它切出去的分支会继承脏改动。
-
 ## 密钥：不主动读、不外泄、不留痕
 
 铁律：**代码和配置里的 apikey / token / 密码 / 证书私钥，一律不主动读取、不输出、不记录、不发到外网。**
@@ -125,3 +110,11 @@ worktree 里的改动**只提交到它自己的 feature 分支**（`xxl/feature/
 **Why:** 密钥一旦进了对话记录、提交历史或外部服务，就等于泄露，事后 rebase 或删文件都清不干净，只能走轮换。
 
 ## Imported Claude Cowork project instructions
+
+## 文档输出位置
+
+我让你「输出文档」（md、html、txt、docx 等交给我本人拿走用的文件）时，默认保存到 `~/Downloads/`，并在回复中给出完整路径。
+
+- 我指定了其他位置时，按我说的放。
+- 属于项目代码库的文档（README、specs、CHANGELOG 等）照常写在仓库里，不受这条规则影响。
+- 临时中间文件仍然放 scratchpad。

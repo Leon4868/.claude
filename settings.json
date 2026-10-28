@@ -2,6 +2,17 @@
   "model": "opus",
   "enableWorkflows": true,
   "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    },
+    "kimi-k3.1-pro": {
+      "effortLevel": "medium"
+    }
+  },
   "theme": "dark",
   "mcpServers": {
     "figma": {

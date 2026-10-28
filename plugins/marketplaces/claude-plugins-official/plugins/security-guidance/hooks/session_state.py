@@ -17,6 +17,7 @@ except ImportError:
 import json
 import os
 import re
+import tempfile
 from datetime import datetime
 
 from _base import debug_log, state_dir as _state_dir
@@ -47,7 +48,7 @@ def get_lock_file(session_id):
 
 
 def cleanup_old_state_files():
-    """Remove state files and lock files older than 30 days."""
+    """Remove state files, lock files and leftover temporary files older than 30 days."""
     try:
         state_dir = _state_dir()
         if not os.path.exists(state_dir):
@@ -58,7 +59,7 @@ def cleanup_old_state_files():
 
         for filename in os.listdir(state_dir):
             if filename.startswith("security_warnings_state_") and (
-                filename.endswith(".json") or filename.endswith(".lock")
+                filename.endswith((".json", ".lock", ".tmp"))
             ):
                 file_path = os.path.join(state_dir, filename)
                 try:
@@ -96,23 +97,77 @@ def load_state(session_id):
             if isinstance(data, dict):
                 data.setdefault("shown_warnings", [])
                 return data
-    except (json.JSONDecodeError, IOError, KeyError, TypeError):
+    except FileNotFoundError:
+        return {"shown_warnings": []}
+    except (ValueError, IOError, KeyError, TypeError):
+        # ValueError: not JSON, or bytes that do not decode.
         pass
-    return {"shown_warnings": []}
+    # The file is there but cannot be used, so everything the session had
+    # recorded is gone. Leave a mark for the Stop hook to report: a flag, not
+    # a count, since an earlier mark is lost with the rest.
+    debug_log(f"State file {state_file} is unreadable, starting from an empty state")
+    return {"shown_warnings": [], "state_resets": 1}
+
+
+# Windows still writes the state file in place: a rename there is refused
+# while another process has the file open and can make a concurrent open fail,
+# and hooks run without a state lock on Windows (see with_locked_state).
+_RENAME_INTO_PLACE = os.name != "nt"
+
+
+def _write_then_rename(state_file, state):
+    """Write `state` to a temporary file and rename it over `state_file`.
+    Returns False, with nothing changed, when this directory does not allow
+    it; any other failure raises OSError and leaves the state file as it was."""
+    tmp = None
+    try:
+        fd, tmp = tempfile.mkstemp(
+            dir=os.path.dirname(state_file),
+            prefix=os.path.basename(state_file) + ".", suffix=".tmp")
+        with os.fdopen(fd, "w") as f:
+            json.dump(state, f)
+        os.replace(tmp, state_file)
+        return True
+    except BaseException as e:
+        if tmp:
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+        if isinstance(e, PermissionError):
+            return False
+        raise
 
 
 def save_state(session_id, state):
-    """Save the full state dict to file."""
+    """Save the full state dict to file.
+
+    The new contents go to a temporary file that is then renamed over the
+    state file, so a hook killed part-way through a save (a timeout, an
+    interrupt) leaves the previous state. Written in place it left a truncated
+    file, which load_state reads as an empty state: the turn baseline, touched
+    paths and shown warnings were lost.
+    """
     state_file = get_state_file(session_id)
     try:
         state_dir = os.path.dirname(state_file)
         if state_dir:
             os.makedirs(state_dir, exist_ok=True)
 
+        if _RENAME_INTO_PLACE and _write_then_rename(state_file, state):
+            return
         with open(state_file, "w") as f:
             json.dump(state, f)
     except (IOError, OSError) as e:
         debug_log(f"Failed to save state file {state_file}: {e}")
+
+
+def _raw_state(state_file):
+    try:
+        with open(state_file, "rb") as f:
+            return f.read()
+    except OSError:
+        return None
 
 
 def with_locked_state(session_id, callback):
@@ -132,8 +187,15 @@ def with_locked_state(session_id, callback):
 
     if fcntl is None:
         # No file locking available (Windows) — run without locking
+        state_file = get_state_file(session_id)
+        before = _raw_state(state_file)
         state = load_state(session_id)
         result = callback(state)
+        if _raw_state(state_file) != before:
+            # Another hook changed the state after it was read here, and this
+            # save is about to drop that change. Count how often it happens;
+            # the Stop hook reports the count.
+            state["state_overwrites"] = state.get("state_overwrites", 0) + 1
         save_state(session_id, state)
         return result
 

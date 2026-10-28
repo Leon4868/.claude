@@ -1,0 +1,7 @@
+interface:
+  display_name: "UI Acceptance"
+  short_description: "对照 Figma / 蓝湖设计稿验收页面 UI，输出差异清单与离线报告"
+  default_prompt: "Use $ui-acceptance to compare these design boards with the live pages: <Figma 或蓝湖链接> → <页面地址>"
+
+policy:
+  allow_implicit_invocation: true

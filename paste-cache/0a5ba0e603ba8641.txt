@@ -1,0 +1,235 @@
+# ASR 模型配置：前端对接文档
+
+适用功能：管理后台的 ASR 模型创建、编辑，以及话术创建、编辑中的降噪开关。
+
+接口依据：`ai` 仓库 `feature_20261012_asr_model_config` 分支，后端基线提交 `ccdc92c4a0`。本文路径为 `ai-admin` 的相对路径，网关前缀、登录态、权限和公共错误处理沿用现有页面。请求使用 `POST`、`Content-Type: application/json`。
+
+## 1. 页面改动
+
+### 1.1 ASR 模型创建、编辑
+
+在现有表单中增加以下三项，流式和一句话模型使用相同字段；不按厂商或是否自研隐藏。
+
+| 页面项 | 字段 | 控件 | 创建默认值 | 说明 |
+|---|---|---|---|---|
+| 自研降噪模型应用 | `enableCustomDenoise` | 开关 | 关闭 | 是否应用自研前置降噪 |
+| 支持热词 | `supportHotwords` | 开关 | 关闭 | 控制该模型是否应用热词，不只是展示能力标记 |
+| 模型专属配置 | `extParams` | 多行文本输入框 | 空字符串 | 按字符串保存，支持输入 JSON 等配置文本 |
+
+“自研降噪模型应用”帮助说明：
+
+> 当开启后，则使用时该 ASR 模型会启用自研的降噪模型进行前置降噪。
+
+编辑时按接口实际返回值回显，包括已初始化的存量值；创建默认值不能覆盖编辑值。切换识别模式或厂商时，不自动重置这三项。
+
+`extParams` 的交互要求：
+
+- 原样回显、原样提交，保留换行、空格和字符串中的占位符。
+- 不强制必须为 JSON，不强制 JSON 格式化或校验通过才能保存。
+- 不预置某个厂商的参数，不根据热词或降噪开关自动改写文本内容。
+- 接口字段始终是字符串。即使输入内容是 JSON，也不能直接提交为对象。
+- 返回 `null` 或缺少该字段时，输入框展示为空；返回 `"{}"` 时展示 `{}`，不自动替换为空字符串。
+
+### 1.2 话术创建、编辑
+
+将原“降噪等级”选择控件替换为“降噪”开关，使用新字段 `expandParams.enableDenoise`，创建默认开启。
+
+帮助说明：
+
+> 开启后按选择的 ASR 模型配置的降噪能力进行降噪处理。
+
+该话术开关控制自研前置降噪，厂商原生降噪仍由模型专属配置独立控制。前端只保存开关值，不计算模型开关、白名单或专属配置合并后的运行结果。
+
+旧 `denoiseLevel` 不映射为新开关：历史值 `1/2/3` 均不能用来推导 `enableDenoise`。编辑时保留现有扩展配置中的旧字段和值，不随新开关改写；创建时不再从新开关生成旧等级值。
+
+## 2. ASR 模型接口
+
+### 2.1 接口清单
+
+| 接口 | 用途 | 本次变化 |
+|---|---|---|
+| `/voiceModelManager/add` | 创建模型 | 请求增加三个新字段 |
+| `/voiceModelManager/edit` | 编辑模型 | 请求增加三个新字段 |
+| `/voiceModelManager/list` | 管理列表、编辑回显 | 每条记录返回三个新字段 |
+| `/voiceModel/list` | 现有可用模型列表 | 每条记录返回三个新字段，无需新增请求参数 |
+
+继续使用现有新增、编辑和列表入口，无新增模型详情接口。现有字段、校验和“支持识别模型 Prompt”等功能沿用原实现。
+
+### 2.2 新字段的保存规则
+
+| 字段 | 类型 | 创建时未传或为 `null` | 编辑时未传或为 `null` | 显式清空、关闭 |
+|---|---|---|---|---|
+| `enableCustomDenoise` | boolean | 保存 `false` | 保留原值 | 传 `false` |
+| `supportHotwords` | boolean | 保存 `false` | 保留原值 | 传 `false` |
+| `extParams` | string | 保存 `""` | 保留原值 | 传 `""` |
+
+开关提交 JSON boolean `true/false`，不要使用 `0/1` 或字符串。用户关闭开关时必须提交 `false`，不能被“过滤空值”的逻辑丢掉。用户清空配置时必须提交空字符串，不能转成 `null` 或省略字段。
+
+专属配置按整段字符串保存，不是服务端 JSON 局部更新。例如只想修改 JSON 中一个参数，应在输入框中修改该项并保留其他配置，再提交完整文本。
+
+### 2.3 创建示例
+
+以下为现有必填字段与新增字段的组合示例，模型标识、语言及厂商使用页面实际选择值。`recognitionType` 沿用现有枚举：`1` 流式、`2` 一句话。
+
+```json
+{
+  "modelName": "示例ASR模型",
+  "modelId": "/etc/demo_asr.json",
+  "language": "zh-CN",
+  "platform": "AL",
+  "recognitionType": 1,
+  "supportPrompt": false,
+  "enableCustomDenoise": false,
+  "supportHotwords": false,
+  "extParams": ""
+}
+```
+
+创建成功响应：
+
+```json
+{
+  "code": 200,
+  "message": "成功"
+}
+```
+
+该接口不返回新模型 ID，保存后按现有流程刷新列表。
+
+### 2.4 编辑示例
+
+编辑请求继续携带原有必填字段及当前 `supportPrompt` 等表单值；在原请求上增加三个新字段，不能仅发送 `id` 和本次新增字段。
+
+```json
+{
+  "id": 123,
+  "modelName": "示例ASR模型",
+  "modelId": "/etc/demo_asr.json",
+  "language": "zh-CN",
+  "platform": "AL",
+  "recognitionType": 1,
+  "supportPrompt": false,
+  "enableCustomDenoise": true,
+  "supportHotwords": false,
+  "extParams": "{\n  \"max_sentence_silence\": 1200,\n  \"disfluency\": false\n}"
+}
+```
+
+保存成功响应与创建相同。清空“模型专属配置”时，将上例的 `extParams` 改为 `""`。
+
+### 2.5 列表与回显
+
+`/voiceModelManager/list` 的分页参数、筛选参数沿用原接口；示例：
+
+```json
+{
+  "pageNo": 1,
+  "pageSize": 10,
+  "recognitionType": 1
+}
+```
+
+响应示例仅列出与本次对接相关的部分字段。管理列表的 `total`、`list` 位于响应顶层，不在 `data` 下：
+
+```json
+{
+  "code": 200,
+  "message": "成功",
+  "total": 1,
+  "list": [
+    {
+      "id": 123,
+      "modelName": "示例ASR模型",
+      "modelId": "/etc/demo_asr.json",
+      "language": "zh-CN",
+      "platform": "AL",
+      "recognitionType": 1,
+      "supportPrompt": false,
+      "enableCustomDenoise": true,
+      "supportHotwords": false,
+      "extParams": "{\"max_sentence_silence\":1200,\"disfluency\":false}"
+    }
+  ]
+}
+```
+
+`/voiceModel/list` 沿用原来的 `data` 数组结构，每个元素增加同名字段。模型选择框继续沿用原有筛选及选择逻辑，不根据这些开关额外过滤模型或清空话术热词。
+
+## 3. 话术接口
+
+### 3.1 提交
+
+`/template/add`、`/template/edit` 的现有请求中，在 `expandParams` 对象内增加 boolean 字段 `enableDenoise`。
+
+以下仅展示变更部分，须合并到现有完整话术请求中，保留其他顶层字段和扩展配置：
+
+```json
+{
+  "expandParams": {
+    "enableDenoise": true
+  }
+}
+```
+
+关闭时显式传 `false`。这里的 `expandParams` 是 JSON 对象，不是字符串；不要改用发布数据的 `expand` 字段名。
+
+模型编辑的“未传保留原值”规则不适用于话术扩展配置。话术保存沿用现有整份扩展配置的提交方式，不能只发本次新增开关而丢掉其他项；编辑已关闭的话术时，也必须继续带上 `enableDenoise=false`。
+
+### 3.2 回显
+
+继续通过现有话术详情接口 `/template/getTemp`（含草稿）或 `/template/get` 读取。请求示例：
+
+```json
+{
+  "templateId": 12345
+}
+```
+
+响应示例只展示本次相关字段。注意详情返回的 `data.expandParams` 是 JSON 字符串，与保存请求中的对象不同：
+
+```json
+{
+  "code": 200,
+  "message": "成功",
+  "data": {
+    "templateId": 12345,
+    "expandParams": "{\"denoiseLevel\":2,\"enableDenoise\":false}"
+  }
+}
+```
+
+将详情中的扩展字符串按现有流程解析为对象后，读取 `enableDenoise`：
+
+| 解析后的值 | 开关回显 |
+|---|---|
+| `true` | 开启 |
+| `false` | 关闭 |
+| 字段缺失或 `null` | 开启 |
+
+扩展配置本身为空时，也按开启展示。不得用 `value || true` 处理默认值，否则会把明确的 `false` 回显为开启。
+
+发布继续使用原有发布流程，前端无需增加字段转换或额外接口调用。
+
+## 4. 错误处理与联调验收
+
+成功码为 `code=200`；其他响应按现有公共逻辑显示 `message`。本次没有新增业务错误码，也没有新增专属配置的 JSON 格式校验错误。原有必填项校验保持不变。
+
+| 场景 | 验收结果 |
+|---|---|
+| 新建模型 | 两个模型开关默认关闭，专属配置为空 |
+| 编辑模型后重新打开 | 两个开关及配置文本按保存值回显 |
+| 将模型开关从开改为关 | 请求包含 `false`，再次打开仍为关闭 |
+| 清空模型专属配置 | 请求包含 `extParams=""`，再次打开为空 |
+| 输入 JSON、多行文本或非 JSON 配置 | 作为字符串提交，不被转成对象或强制格式化 |
+| 新建话术 | 降噪默认开启 |
+| 编辑旧话术，未存新字段 | 降噪按开启回显，不从旧等级推导 |
+| 关闭话术降噪后重新打开或再次保存 | 保持关闭，不被默认值覆盖 |
+| 编辑话术降噪 | 其他扩展配置及已有 `denoiseLevel` 保留 |
+
+## 5. 联调范围与生效说明
+
+本功能分支已实现上述字段的管理存取、回显及话术发布数据承载；实际环境能否联调取决于该分支代码及模型新增列是否已部署。
+
+识别运行时的消费端接入仍待完成，总开关默认关闭。当前可验收页面和配置保存；不能仅凭保存成功判断实际通话已经使用新配置。前端不新增总开关入口，也不负责初始化存量模型参数。
+
+后端初始化及运行时规则另见 [ASR 模型配置说明](asr-model-config.md)。

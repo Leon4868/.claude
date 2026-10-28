@@ -1,0 +1,643 @@
+# 1010188 主叫号码盘点接口文档（前端版）
+
+版本：1.0.0  
+更新日期：2026-10-16
+
+接口状态：待联调。示例 ID、名称和数据仅用于说明。
+
+## 1. 接入约定
+
+- 请求方式：`POST`，`Content-Type: application/json`。
+- 下列盘点路径已包含服务前缀 `/task-aggre`；若现有请求封装已包含该前缀，不要重复拼接。
+- 域名、登录凭证、应用编码及请求头复用管理后台现有请求封装；请求失败、登录失效和权限提示沿用现有统一处理。
+- 盘点接口和通用导出沿用统一响应外层，业务数据在 `data` 中；请求封装已解包时直接读取业务对象。供应商接口使用既有 ai 响应格式，见第 5 节。
+- 可空字段可能为 `null` 或省略，前端兼容两种情况。名称缺失不表示号码不存在。
+- `int32`、`int64` 分别表示 32 位、64 位整数。号码、地区编码和时间按字符串处理；主叫号码保留前导零，ID 沿用项目的长整数处理方式。
+
+| 接口 | 方法 | 外部路径 |
+|---|---|---|
+| 盘点组合统计 | POST | `/task-aggre/caller/number/inventory/stat` |
+| 盘点明细分页 | POST | `/task-aggre/caller/number/inventory/page` |
+| 供应商选项 | POST | `/api/supplier/page` |
+| 统计、明细导出 | POST | `/data-center/down/common` |
+
+### 统一成功响应
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| status | int32 | 成功为 200。 |
+| code | int32 | 成功为 200。 |
+| message | string | 成功示例为 success。 |
+| data | array / object / null | 统计为数组，明细为分页对象，导出提交无业务返回对象。 |
+
+## 2. 盘点组合统计
+
+`POST /task-aggre/caller/number/inventory/stat`
+
+一次返回当前筛选范围的全部组合及末行合计，不分页。
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| countryId | int32 | 是 | 国家/地区 ID，国内为 1。 |
+| supplierIds | int32[] | 否 | 供应商 ID 集合。非空时按供应商筛选和分组。 |
+| carrierIds | int32[] | 否 | 运营商 ID 集合。非空时按运营商筛选和分组，国内也生效。 |
+| provinceCodes | string[] | 否 | 省份编码集合。非空时筛选，不产生省份分组或省份小计。 |
+| cityCodes | string[] | 否 | 城市编码集合。非空时筛选，并按城市编码分组。 |
+
+筛选约定：
+
+- 集合未传、为 null 或为空数组时，不按该项筛选。同一项匹配任一所选值即可，不同项须同时满足。
+- 整省选择时传入该省所选的全部城市；只选部分城市时仅传这些城市。
+
+### 请求示例
+
+只选国家：
+
+```json
+{
+  "countryId": 1
+}
+```
+
+选择供应商及城市：
+
+```json
+{
+  "countryId": 1,
+  "supplierIds": [
+    10
+  ],
+  "provinceCodes": [
+    "440000"
+  ],
+  "cityCodes": [
+    "440100"
+  ]
+}
+```
+
+### 返回字段
+
+`data` 为统计行数组。
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| countryId | int32 | 当前国家/地区 ID，合计行也保留。 |
+| countryName | string | 国家/地区名称。 |
+| supplierId | int32 | 分组供应商 ID；未参与分组或合计行时为空。 |
+| supplierName | string | 供应商名称。 |
+| carrierId | int32 | 分组运营商 ID；未参与分组或合计行时为空。 |
+| carrierName | string | 运营商名称。 |
+| provinceCode | string | 分组城市所属省份编码，仅用于展示。 |
+| provinceName | string | 分组城市所属省份名称。 |
+| cityCode | string | 分组城市编码；未参与分组或合计行时为空。 |
+| cityName | string | 城市名称。 |
+| dimensionName | string | 完整维度组合文字，直接展示；末行固定为“合计”。 |
+| callerNumberCount | int64 | 主叫号码记录总数，按记录 ID 计数。 |
+| unconfiguredCount | int64 | 未配置号码数，status=1。 |
+| usedCount | int64 | 已使用号码数，status=2。 |
+| riskCount | int64 | 有风险号码数，status=4。 |
+| silentCount | int64 | 静默中号码数，status=5。 |
+| washingCount | int64 | 洗号中号码数，status=6。 |
+| disabledCount | int64 | 已停用号码数，status=3。 |
+| neverCalledCount | int64 | 从未外呼号码数，idleType=1。 |
+| within7DaysCount | int64 | 7 天内号码数，idleType=2。 |
+| from7To30DaysCount | int64 | 7–30 天号码数，idleType=3。 |
+| over30DaysCount | int64 | 30 天以上号码数，idleType=4。 |
+| lineBoundCount | int64 | 已绑定当前线路且无非空白 VOS 信息的号码数，不包含 VOS 在用号码，bindingType=1。 |
+| vosInUseCount | int64 | 有非空白 VOS 信息的号码数；同时绑定线路和 VOS 时只计入此项，bindingType=2。 |
+| unboundCount | int64 | 未绑定当前线路且无非空白 VOS 信息的号码数，bindingType=3。 |
+
+全部计数字段非空，无数量时返回 0。绑定三类互斥，三项之和等于 callerNumberCount。同号码文本、不同 callerNumberId 分别计数。
+
+### 列表与合计约定
+
+- 普通行按供应商、运营商、城市中实际参与分组的维度组合返回；无号码组合不补零行。
+- 末行始终为合计，前端不重复追加。合计只保留国家信息，其余分组维度为空。
+- 只选国家，或仅传省份而未选供应商、运营商、城市分组时，只返回一条合计。
+- 无匹配号码时也返回一条零合计，不返回空数组。前端可据此展示空状态并保留合计行。
+- `dimensionName` 直接展示，例如“供应商A × 广东省广州市”。下钻使用独立 ID/编码。
+
+### 响应示例
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success",
+  "data": [
+    {
+      "countryId": 1,
+      "countryName": "中国",
+      "supplierId": 10,
+      "supplierName": "供应商A",
+      "carrierId": null,
+      "carrierName": null,
+      "provinceCode": "440000",
+      "provinceName": "广东省",
+      "cityCode": "440100",
+      "cityName": "广州市",
+      "dimensionName": "供应商A × 广东省广州市",
+      "callerNumberCount": 3,
+      "unconfiguredCount": 1,
+      "usedCount": 1,
+      "riskCount": 1,
+      "silentCount": 0,
+      "washingCount": 0,
+      "disabledCount": 0,
+      "neverCalledCount": 1,
+      "within7DaysCount": 1,
+      "from7To30DaysCount": 1,
+      "over30DaysCount": 0,
+      "lineBoundCount": 1,
+      "vosInUseCount": 2,
+      "unboundCount": 0
+    },
+    {
+      "countryId": 1,
+      "countryName": "中国",
+      "supplierId": null,
+      "supplierName": null,
+      "carrierId": null,
+      "carrierName": null,
+      "provinceCode": null,
+      "provinceName": null,
+      "cityCode": null,
+      "cityName": null,
+      "dimensionName": "合计",
+      "callerNumberCount": 3,
+      "unconfiguredCount": 1,
+      "usedCount": 1,
+      "riskCount": 1,
+      "silentCount": 0,
+      "washingCount": 0,
+      "disabledCount": 0,
+      "neverCalledCount": 1,
+      "within7DaysCount": 1,
+      "from7To30DaysCount": 1,
+      "over30DaysCount": 0,
+      "lineBoundCount": 1,
+      "vosInUseCount": 2,
+      "unboundCount": 0
+    }
+  ]
+}
+```
+
+无匹配：
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success",
+  "data": [
+    {
+      "countryId": 1,
+      "countryName": "中国",
+      "supplierId": null,
+      "supplierName": null,
+      "carrierId": null,
+      "carrierName": null,
+      "provinceCode": null,
+      "provinceName": null,
+      "cityCode": null,
+      "cityName": null,
+      "dimensionName": "合计",
+      "callerNumberCount": 0,
+      "unconfiguredCount": 0,
+      "usedCount": 0,
+      "riskCount": 0,
+      "silentCount": 0,
+      "washingCount": 0,
+      "disabledCount": 0,
+      "neverCalledCount": 0,
+      "within7DaysCount": 0,
+      "from7To30DaysCount": 0,
+      "over30DaysCount": 0,
+      "lineBoundCount": 0,
+      "vosInUseCount": 0,
+      "unboundCount": 0
+    }
+  ]
+}
+```
+
+## 3. 盘点明细分页
+
+`POST /task-aggre/caller/number/inventory/page`
+
+页面明细和明细导出共用此接口。每个 callerNumberId 返回一条，不按号码文本去重。
+
+### 请求参数
+
+支持第 2 节全部五个维度参数，并增加：
+
+| 参数 | 类型 | 必填 | 默认值 / 说明 |
+|---|---|---|---|
+| currentNo | int32 | 否 | 页码；页面调用时显式传入，从 1 开始。 |
+| pageSize | int32 | 否 | 每页条数，默认 10。 |
+| status | int32 | 否 | 状态单值，编码见第 4 节。未传或 null 不筛选。 |
+| idleType | int32 | 否 | 闲置分类单值，编码见第 4 节。未传或 null 不筛选。 |
+| bindingType | int32 | 否 | 绑定分类单值，编码见第 4 节。未传或 null 不筛选。 |
+| sortField | string | 否 | createTime、lastInvokeTime、callCount。 |
+| sortOrder | string | 否 | asc、desc。 |
+
+- 默认按主叫号码记录 ID 倒序。sortField、sortOrder 必须同时非空才使用指定排序，缺少任一项时使用默认排序。
+- 指定排序值相同的记录，再按主叫号码记录 ID 倒序。
+- 页面一次只传一种分类。切换类别时清除另外两种分类字段。
+- 筛选变化、点击统计数字或切换分类后，前端将 currentNo 重置为 1。
+
+### 请求示例
+
+查看某组合中的 VOS 在用号码，按累计外呼次数降序：
+
+```json
+{
+  "countryId": 1,
+  "supplierIds": [
+    10
+  ],
+  "provinceCodes": [
+    "440000"
+  ],
+  "cityCodes": [
+    "440100"
+  ],
+  "bindingType": 2,
+  "currentNo": 1,
+  "pageSize": 20,
+  "sortField": "callCount",
+  "sortOrder": "desc"
+}
+```
+
+### 分页返回字段
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| records | object[] | 当前页记录，空页为 []。 |
+| total | int64 | 满足维度及分类条件的号码记录总数。 |
+| size | int64 | 每页大小。 |
+| pages | int64 | 总页数；无匹配时为 0。 |
+| current | int64 | 当前页码。 |
+
+超过末页时 records=[]，仍保留实际 total/pages。
+
+### records 行字段
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| callerNumberId | int64 | 主叫号码记录 ID，用作表格行标识。 |
+| callerNumber | string | 主叫号码文本，保留前导零；不同记录可以相同。 |
+| countryId | int32 | 号码所属国家/地区 ID。 |
+| countryName | string | 国家/地区名称。 |
+| supplierId | int32 | 号码所属供应商 ID。 |
+| supplierName | string | 供应商名称。 |
+| carrierId | int32 | 号码自身运营商 ID，国内也保留。 |
+| carrierName | string | 运营商名称；国内明细固定显示“-”，不影响 carrierIds 筛选。 |
+| provinceCode | string | 号码自身省份编码。 |
+| provinceName | string | 省份名称。 |
+| cityCode | string | 号码自身城市编码。 |
+| cityName | string | 城市名称。 |
+| gatewayId | int32 | 当前绑定线路 ID；无有效绑定时可能为空或为非正数。 |
+| gatewayName | string | 当前线路名称；无线路或名称缺失时为“-”。正数 gatewayId 可用于现有线路页面跳转。 |
+| vosGroupInfo | string | 当前保存的 VOS 信息，非空白内容原样返回；无记录或内容为空白时为“-”。 |
+| status | int32 | 号码状态编码。 |
+| statusName | string | 状态名称，前端直接展示。 |
+| idleType | int32 | 闲置分类编码。 |
+| idleTypeName | string | 闲置分类名称，前端直接展示。 |
+| bindingType | int32 | 绑定分类编码。 |
+| bindingTypeName | string | 绑定分类名称，前端直接展示。 |
+| createTime | string | 创建时间，格式 yyyy-MM-dd HH:mm:ss；可能为空。 |
+| lastInvokeTime | string | 最后外呼时间，同上格式；空值由页面显示“-”。 |
+| callCount | int64 | 按 callerNumberId 累计全部历史外呼次数，无统计记录为 0。 |
+
+线路和 VOS 两列分别展示。同时存在时都保留，不因 bindingType=2 隐藏线路。callCount=0 不代表从未外呼，闲置分类以 lastInvokeTime 为准。
+
+### 响应示例
+
+以下是独立的明细响应示例，用于说明字段格式，不与第 2 节统计示例关联：
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success",
+  "data": {
+    "records": [
+      {
+        "callerNumberId": 102,
+        "callerNumber": "00123456789",
+        "countryId": 1,
+        "countryName": "中国",
+        "supplierId": 10,
+        "supplierName": "供应商A",
+        "carrierId": 7,
+        "carrierName": "-",
+        "provinceCode": "440000",
+        "provinceName": "广东省",
+        "cityCode": "440100",
+        "cityName": "广州市",
+        "gatewayId": 8,
+        "gatewayName": "线路A",
+        "vosGroupInfo": "VOS号码池A",
+        "status": 2,
+        "statusName": "已使用",
+        "idleType": 2,
+        "idleTypeName": "7天内",
+        "bindingType": 2,
+        "bindingTypeName": "VOS在用",
+        "createTime": "2026-10-01 09:00:00",
+        "lastInvokeTime": "2026-10-16 10:00:00",
+        "callCount": 7
+      }
+    ],
+    "total": 1,
+    "size": 20,
+    "pages": 1,
+    "current": 1
+  }
+}
+```
+
+无匹配：
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success",
+  "data": {
+    "records": [],
+    "total": 0,
+    "size": 20,
+    "pages": 0,
+    "current": 1
+  }
+}
+```
+
+超过末页：
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success",
+  "data": {
+    "records": [],
+    "total": 21,
+    "size": 20,
+    "pages": 2,
+    "current": 3
+  }
+}
+```
+
+## 4. 分类编码与下钻参数
+
+### 状态
+
+| status | 名称 | 对应统计字段 |
+|---|---|---|
+| 1 | 未配置 | unconfiguredCount |
+| 2 | 已使用 | usedCount |
+| 3 | 已停用 | disabledCount |
+| 4 | 有风险 | riskCount |
+| 5 | 静默中 | silentCount |
+| 6 | 洗号中 | washingCount |
+
+### 闲置分类
+
+以每次请求的当前时间计算实际经过时长，不按自然日或整数天计算。
+
+| idleType | 名称 | 规则 | 对应统计字段 |
+|---|---|---|---|
+| 1 | 从未外呼 | lastInvokeTime 为空。 | neverCalledCount |
+| 2 | 7天内 | 最后外呼在 168 小时边界及之后，恰好 7 天计入。 | within7DaysCount |
+| 3 | 7–30天 | 超过 168 小时且不超过 720 小时，恰好 30 天计入。 | from7To30DaysCount |
+| 4 | 30天以上 | 超过 720 小时。 | over30DaysCount |
+
+### 绑定分类
+
+| bindingType | 名称 | 规则 | 对应统计字段 |
+|---|---|---|---|
+| 1 | 线路绑定 | 有当前绑定线路，且无非空白 VOS 信息。 | lineBoundCount |
+| 2 | VOS在用 | 存在非空白 VOS 信息；同时绑定线路和 VOS 时只计入此类。 | vosInUseCount |
+| 3 | 未绑定 | 无当前绑定线路，也无非空白 VOS 信息。 | unboundCount |
+
+### 下钻流程
+
+1. 保存统计请求的原始维度条件。
+2. 点击普通组合行或号码总数时，将该行参与分组的 supplierIds、carrierIds、cityCodes 收窄成对应 ID/编码的单元素数组，不附带分类条件。
+3. 点击分类数字时，在上述条件上设置对应的 status、idleType 或 bindingType，只保留当前一种分类。
+4. provinceCodes 保留原统计请求的筛选集合，不根据响应中用于展示的 provinceCode 重新收窄，避免改变该城市组合的号码范围。
+5. 未参与分组的条件保留原值，不凭空补充；currentNo 重置为 1。
+6. 若页面提供合计下钻，使用原统计筛选条件，不把合计行的空维度字段覆盖进请求；是否允许点击由前端决定。
+
+## 5. 供应商选项
+
+`POST /api/supplier/page`
+
+用于供应商下拉选项。
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| countryId | int32 | 否 | 本页面传所选国家；未传时不限制供应商国家。 |
+| supplierStatus | int32 | 否 | 本页面传 1，查询合作中的供应商。 |
+| pageNo | int32 | 否 | 页码，默认 1；注意这里使用 pageNo，不是 currentNo。 |
+| pageSize | int32 | 否 | 每页大小，默认 10。 |
+| supplierName | string | 否 | 供应商名称模糊筛选。 |
+| keyword | string | 否 | 供应商名称或 ID 关键词筛选。 |
+| supplierGroupId | int32 | 否 | 供应商分组。 |
+| rating | int32 | 否 | 评级。 |
+
+```json
+{
+  "countryId": 1,
+  "supplierStatus": 1,
+  "pageNo": 1,
+  "pageSize": 20
+}
+```
+
+### 返回字段
+
+该接口原始响应直接包含 total/list，不在 data 中再包一层分页对象，也不使用 records。
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| code | int32 | 成功为 200。 |
+| message | string | 成功提示，随现有语言配置返回。 |
+| total | int32 | 符合条件的供应商总数。 |
+| list | object[] | 供应商列表，空列表为 []。 |
+| list[].id | int32 | 供应商 ID；选中后放入盘点 supplierIds。 |
+| list[].supplierName | string | 供应商名称，用作选项展示。 |
+| list[].supplierStatus | int32 | 合作状态。 |
+| list[].countryId | int32 | 供应商国家 ID。 |
+| list[].countryName | string | 国家名称。 |
+
+此表及示例只列本页面所需字段。
+
+```json
+{
+  "code": 200,
+  "message": "成功",
+  "total": 1,
+  "list": [
+    {
+      "id": 10,
+      "supplierName": "供应商A",
+      "supplierStatus": 1,
+      "countryId": 1,
+      "countryName": "中国"
+    }
+  ]
+}
+```
+
+未选择供应商时，supplierIds 留空，不传下拉列表的全部供应商 ID。
+
+国家、运营商选项及国内省市组件复用现有页面能力。页面在国内禁用运营商选择，在海外禁用省市选择。
+
+## 6. 统计和明细导出
+
+`POST /data-center/down/common`
+
+成功仅表示任务已提交，不直接返回文件地址或任务 ID；前端进入现有下载中心查看状态和下载文件。
+
+### 请求参数
+
+| 参数 | 类型 | 必填 | 本页面取值或说明 |
+|---|---|---|---|
+| appCode | string | 是 | "4"，管理后台。 |
+| appName | string | 是 | "task-aggre"。 |
+| requestType | string | 是 | "POST"。 |
+| url | string | 是 | 统计填 /caller/number/inventory/stat，明细填 /caller/number/inventory/page。 |
+| requestParams | object | 是 | 统计导出传 {}，明细导出传当前完整查询条件；不能为 null。 |
+| list | object[] | 统计导出必填 | 完整统计列表，含末行合计；明细导出不传。 |
+| fileName | string | 是 | 号码盘点统计_yyyy-MM-dd HH:mm:ss 或号码盘点明细_yyyy-MM-dd HH:mm:ss，不含扩展名。 |
+| columnAndAttributes | object | 是 | key 为响应字段，value 为列标题；按期望列顺序构造。 |
+
+### 导出统计
+
+将统计接口解包后的完整数组原样放入 list。不要传整个响应外层，也不要再次追加合计；即使无匹配，也传包含一条零合计的数组。
+
+以下示例为只选国家的统计导出，选列仅作示意：
+
+```json
+{
+  "appCode": "4",
+  "appName": "task-aggre",
+  "requestType": "POST",
+  "url": "/caller/number/inventory/stat",
+  "requestParams": {},
+  "list": [
+    {
+      "countryId": 1,
+      "countryName": "中国",
+      "supplierId": null,
+      "supplierName": null,
+      "carrierId": null,
+      "carrierName": null,
+      "provinceCode": null,
+      "provinceName": null,
+      "cityCode": null,
+      "cityName": null,
+      "dimensionName": "合计",
+      "callerNumberCount": 3,
+      "unconfiguredCount": 1,
+      "usedCount": 1,
+      "riskCount": 1,
+      "silentCount": 0,
+      "washingCount": 0,
+      "disabledCount": 0,
+      "neverCalledCount": 1,
+      "within7DaysCount": 1,
+      "from7To30DaysCount": 1,
+      "over30DaysCount": 0,
+      "lineBoundCount": 1,
+      "vosInUseCount": 2,
+      "unboundCount": 0
+    }
+  ],
+  "fileName": "号码盘点统计_2026-10-16 12:00:00",
+  "columnAndAttributes": {
+    "dimensionName": "维度组合",
+    "callerNumberCount": "号码总数",
+    "lineBoundCount": "线路绑定",
+    "vosInUseCount": "VOS在用",
+    "unboundCount": "未绑定"
+  }
+}
+```
+
+统计导出使用当前完整列表，columnAndAttributes 中用 dimensionName 对应“维度组合”。
+
+### 导出明细
+
+不传 list。requestParams 保留当前维度、组合、分类和排序；导出范围为全部匹配号码，不受页面当前页码限制。
+
+```json
+{
+  "appCode": "4",
+  "appName": "task-aggre",
+  "requestType": "POST",
+  "url": "/caller/number/inventory/page",
+  "requestParams": {
+    "countryId": 1,
+    "supplierIds": [
+      10
+    ],
+    "provinceCodes": [
+      "440000"
+    ],
+    "cityCodes": [
+      "440100"
+    ],
+    "bindingType": 2,
+    "currentNo": 1,
+    "pageSize": 20,
+    "sortField": "callCount",
+    "sortOrder": "desc"
+  },
+  "fileName": "号码盘点明细_2026-10-16 12:00:00",
+  "columnAndAttributes": {
+    "callerNumberId": "主叫号码ID",
+    "callerNumber": "主叫号码",
+    "statusName": "状态",
+    "gatewayName": "在用线路",
+    "vosGroupInfo": "在用VOS号码池",
+    "supplierName": "供应商",
+    "countryName": "国家/地区",
+    "provinceName": "省份",
+    "cityName": "城市",
+    "carrierName": "运营商",
+    "createTime": "创建时间",
+    "lastInvokeTime": "最后外呼时间",
+    "idleTypeName": "闲置分档",
+    "callCount": "累计外呼次数"
+  }
+}
+```
+
+columnAndAttributes 按所需字段、列顺序和标题填写；主叫号码 ID 的字段名为 callerNumberId。
+
+### 提交响应及文件行为
+
+成功响应示例：
+
+```json
+{
+  "status": 200,
+  "code": 200,
+  "message": "success"
+}
+```
+
+data 可为 null 或省略。导出文件为 CSV，多文件时打包为 ZIP；空明细不生成只有表头的文件。文件状态、下载地址和失败信息使用现有下载中心流程。
